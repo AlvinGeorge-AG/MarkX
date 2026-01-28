@@ -1,0 +1,58 @@
+.hero-container {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.hero-container.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  box-shadow: 5px 15px 10px gray;;
+}
+
+.hero-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255,255,255,0.9);
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.hero-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.tags {
+  background-color: rgba(243, 229, 171, 0.8);
+  padding: 3px 10px;
+  border-radius: 20px;
+  color: #8B5E3C;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.hero-description {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.custom-progress .progress-bar {
+  background: linear-gradient(90deg, #D97706, #8B5E3C); /* orange → brown gradient */
+  transition: width 0.3s ease-in-out; /* smooth increase */
+}
+
+span{
+  color: rgb(152, 60, 17);
+  font-weight: bold;
+}

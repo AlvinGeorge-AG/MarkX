@@ -1,0 +1,377 @@
+
+:root {
+  --bg-deep: #05070d;
+  --bg-soft: #0a0f1f;
+  --white: #ffffff;
+  --muted: #9aa4bf;
+  --accent: #2f7cff;
+  --accent-soft: #6aa6ff;
+  --glow: rgba(47, 124, 255, 0.45);
+}
+
+
+.contact-page {
+  min-height: 100vh;
+  padding: 140px 20px 80px;
+  background: radial-gradient(circle at top, var(--bg-soft), var(--bg-deep));
+  font-family: "Times New Roman", Times, serif;
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+
+.slide-left,
+.slide-right,
+.fade-up {
+  opacity: 0;
+  transition: all 0.9s cubic-bezier(.16,.84,.44,1);
+}
+
+.slide-left { transform: translateX(-80px); }
+.slide-right { transform: translateX(80px); }
+.fade-up { transform: translateY(40px); }
+
+.show {
+  opacity: 1;
+  transform: translate(0);
+}
+
+
+.title {
+  font-size: 3.6rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+  text-shadow: 0 15px 40px rgba(0,0,0,0.9);
+}
+
+.sty1 {
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sty2 {
+  background: linear-gradient(135deg, var(--accent-soft), #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--muted);
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 30px;
+}
+
+.brand-text {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+
+.email-btn {
+  margin-top: 18px;
+  padding: 14px 36px;
+  border-radius: 40px;
+  border: none;
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: var(--white);
+  font-weight: 600;
+  cursor: pointer;
+
+  box-shadow:
+    0 18px 45px rgba(0,0,0,0.85),
+    0 0 35px var(--glow);
+
+  transition: all 0.4s ease;
+}
+
+.email-btn:hover {
+  transform: translateY(-6px) scale(1.08);
+  box-shadow:
+    0 35px 75px rgba(0,0,0,0.95),
+    0 0 55px var(--glow);
+}
+
+
+.service-card,
+.ai-card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+  padding: 36px;
+  border-radius: 28px;
+
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.85),
+    inset 0 0 20px rgba(255,255,255,0.04);
+
+  transition: all 0.6s ease;
+}
+
+.service-card:hover,
+.ai-card:hover {
+  transform: translateY(-14px) scale(1.04);
+  box-shadow:
+    0 50px 110px rgba(0,0,0,0.95),
+    0 0 45px var(--glow);
+}
+
+
+.profile-card {
+  text-align: center;
+}
+
+/* IMAGE */
+.profile-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 18px;
+
+  box-shadow: 0 0 30px var(--glow);
+  transition: transform 0.45s ease;
+}
+
+.profile-card:hover .profile-image {
+  transform: scale(1.1);
+}
+
+.profile-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--white);
+}
+
+.profile-text {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 22px;
+}
+
+.profile-links {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.social-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 18px;
+  text-decoration: none;
+  color: var(--white);
+
+  transition: all 0.35s ease;
+}
+
+.social-icon.instagram {
+  background: linear-gradient(135deg, #e1306c, #833ab4);
+  box-shadow: 0 0 25px rgba(225,48,108,0.6);
+}
+
+.social-icon.gmail {
+  background: linear-gradient(135deg, #ea4335, #fbbc05);
+  box-shadow: 0 0 25px rgba(234,67,53,0.6);
+}
+
+.social-icon:hover {
+  transform: translateY(-6px) scale(1.15);
+  box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+}
+
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal-box {
+  background: var(--bg-soft);
+  padding: 40px;
+  border-radius: 26px;
+  width: 90%;
+  max-width: 460px;
+  position: relative;
+
+  box-shadow:
+    0 40px 90px rgba(0,0,0,0.95),
+    0 0 35px var(--glow);
+}
+
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.4rem;
+  }
+
+  .service-card {
+    padding: 30px;
+  }
+
+  .profile-name {
+    font-size: 1.4rem;
+  }
+}
+.email-form {
+  max-width: 520px;
+  margin: 60px auto 0;
+  padding: 42px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  border-radius: 28px;
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 40px 90px rgba(0,0,0,0.85),
+    inset 0 0 30px rgba(255,255,255,0.04);
+
+  animation: formFadeUp 1s ease forwards;
+}
+
+.email-form input,
+.email-form textarea {
+  width: 100%;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+
+  background: rgba(5, 7, 13, 0.65);
+  color: var(--white);
+  font-size: 0.95rem;
+  font-family: inherit;
+
+  outline: none;
+  transition: all 0.35s ease;
+}
+
+.email-form input::placeholder,
+.email-form textarea::placeholder {
+  color: var(--muted);
+}
+
+.email-form input:focus,
+.email-form textarea:focus {
+  border-color: var(--accent);
+  box-shadow:
+    0 0 0 2px rgba(47,124,255,0.35),
+    0 0 25px var(--glow);
+  background: rgba(5, 7, 13, 0.8);
+  transform: translateY(-2px);
+}
+
+.email-form textarea {
+  resize: none;
+  line-height: 1.6;
+}
+
+.email-form button {
+  margin-top: 10px;
+  padding: 18px;
+  border-radius: 40px;
+  border: none;
+
+  background: linear-gradient(135deg, var(--accent), var(--accent-soft));
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.85),
+    0 0 35px var(--glow);
+
+  transition: all 0.4s ease;
+}
+
+.email-form button:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.95),
+    0 0 55px var(--glow);
+}
+
+.email-form button:active {
+  transform: scale(0.97);
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.8),
+    0 0 25px var(--glow);
+}
+
+@keyframes formFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .email-form {
+    padding: 32px 22px;
+  }
+}
+/* ===== GET AUDIT CTA BUTTON ===== */
+
+.audit-cta-btn {
+  margin-top: 22px;
+  padding: 20px 48px;
+  width: 100%;
+  border-radius: 50px;
+  border: none;
+
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  cursor: pointer;
+  color: #fff;
+
+  background: linear-gradient(
+    135deg,
+    #f58529,
+    #dd2a7b,
+    #8134af,
+    #515bd4
+  );
+
+  box-shadow:
+    0 25px 60px rgba(221,42,123,0.6),
+    0 0 45px rgba(245,133,41,0.5);
+
+  transition: all 0.45s cubic-bezier(.16,.84,.44,1);
+}
+
+.audit-cta-btn:hover {
+  transform: translateY(-6px) scale(1.05);
+  box-shadow:
+    0 40px 90px rgba(221,42,123,0.85),
+    0 0 70px rgba(245,133,41,0.7);
+}
+
+.audit-cta-btn:active {
+  transform: scale(0.96);
+}

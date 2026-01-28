@@ -1,0 +1,229 @@
+:root {
+  --bg-deep: #05070d;
+  --bg-soft: #0a0f1f;
+  --white: #ffffff;
+  --muted: #9aa4bf;
+  --accent: #2f7cff;
+  --accent-soft: #6aa6ff;
+  --glow: rgba(47, 124, 255, 0.45);
+}
+.markx-span{
+animation:  markxspan 3s infinite;
+}
+h3.span{
+  
+}
+@keyframes markxspan {
+  0% {
+    color: #C13584; /* Deep Magenta */
+  }
+  25% {
+    color: #833AB4; /* Deep Purple */
+  }
+  50% {
+    color: #405DE6; /* Deep Indigo Blue */
+  }
+  75% {
+    color: #FD1D1D; /* Deep Red */
+  }
+  100% {
+    color: #C13584; /* Back to Magenta */
+  }
+}
+.markx-section {
+  padding: 140px 20px;
+  background: radial-gradient(circle at top, var(--bg-soft), var(--bg-deep));
+  color: var(--white);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  perspective: 1800px;
+}
+
+.markx-section::before,
+.markx-section::after {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  background: radial-gradient(circle, var(--glow), transparent 65%);
+  animation: floatGlow 20s ease-in-out infinite;
+}
+
+.markx-section::after {
+  animation-delay: -10s;
+  opacity: 0.55;
+}
+
+@keyframes floatGlow {
+  0% { transform: translate3d(0, 0, -400px); }
+  50% { transform: translate3d(140px, -100px, 300px); }
+  100% { transform: translate3d(0, 0, -400px); }
+}
+
+.markx-section h2 {
+  font-size: 3rem;
+  margin-bottom: 14px;
+}
+
+.markx-section h2 span {
+  color: var(--accent-soft);
+  text-shadow: 0 0 35px var(--glow);
+}
+
+.tagline,
+.offers-sub,
+.origin-text {
+  color: var(--muted);
+}
+
+.highlight-quote,
+.origin-quote {
+  max-width: 760px;
+  margin: 60px auto;
+  padding: 28px 34px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 24px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.8);
+}
+
+.stats-container {
+  display: flex;
+  gap: 36px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 90px 0;
+}
+
+.stat-card {
+  width: 240px;
+  padding: 36px 26px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.05);
+  transition: all 0.6s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-16px) rotateX(8deg);
+  box-shadow: 0 0 45px var(--glow);
+}
+
+.stat-card h3 {
+  font-size: 2.4rem;
+  color: var(--accent-soft);
+}
+
+.difference {
+  margin-top: 160px;
+}
+
+.difference-grid {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 60px;
+}
+
+.diff-card {
+  width: 340px;
+  padding: 36px;
+  border-radius: 24px;
+  background: rgba(255,255,255,0.06);
+  transition: all 0.6s ease;
+}
+
+.diff-card:hover {
+  transform: translateY(-14px) scale(1.05);
+  box-shadow: 0 0 50px var(--glow);
+}
+
+.diff-left h4 {
+  color: #ff6b6b;
+}
+
+.diff-right h4 {
+  color: var(--accent-soft);
+}
+
+.diff-card ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.diff-card li {
+  margin-bottom: 12px;
+  color: var(--muted);
+}
+
+.offers {
+  margin-top: 160px;
+}
+
+.offers-grid {
+  display: flex;
+  gap: 36px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 60px;
+}
+
+.offer-card {
+  width: 300px;
+  padding: 38px 28px;
+  border-radius: 26px;
+  background: rgba(255,255,255,0.06);
+  position: relative;
+  transition: offergrid 6s ease-in-out infinite;
+}
+@keyframes offergrid {
+    0% { background-color: rgba(255, 0, 0, 0.06); }
+    50% { background-color: rgba(224, 244, 5, 0.12); }
+    100% { background-color: rgba(226, 10, 10, 0.06); }
+    
+}
+.offer-card:hover {
+  transform: translateY(-18px) rotateX(8deg);
+  box-shadow: 0 0 55px var(--glow);
+}
+
+.offer-icon {
+  font-size: 34px;
+  margin-bottom: 18px;
+}
+
+.badge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge.new {
+  background: linear-gradient(135deg, #ff7a18, #ffb347);
+}
+
+.badge.seasonal {
+  background: linear-gradient(135deg, #7f7cff, #6aa6ff);
+}
+
+.badge.save {
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+
+@media (max-width: 768px) {
+  .markx-section h2 {
+    font-size: 2.2rem;
+  }
+
+  .stat-card,
+  .diff-card,
+  .offer-card {
+    width: 100%;
+    max-width: 340px;
+  }
+}
