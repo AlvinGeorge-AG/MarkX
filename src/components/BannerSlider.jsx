@@ -6,7 +6,7 @@ const slides = [
   {
     title: "Not Just Another ",
     highlight: "Agency.",
-    subtitle: "We're a Growth System.",
+    subtitle: "We are a Growth System.",
     button: "Get Your Free Audit",
     link: "/contact",
   },
