@@ -4,7 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { NavLink, Link } from "react-router-dom";
 import "./Header.css";
 import logo from "../assets/logo.png";
-import Logo2 from "../assets/Logo2.png";
+import Logo2 from "../assets/logo2.png";
 import CaseStudies from "../pages/CaseStudies";
 import ContactUs from "../pages/contactus";
 

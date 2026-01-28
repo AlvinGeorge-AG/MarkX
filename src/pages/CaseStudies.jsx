@@ -12,8 +12,8 @@ import Sama from "../assets/sama.png";
 import Lenient from "../assets/latent.jpeg";
 const CaseStudies = () => {
   const headingFade = useScrollFadeIn("up", 1, 0, true);
-const paragraphFade = useScrollFadeIn("up", 1, 0.2, true);
-const ctaFade = useScrollFadeIn("up", 1, 0.2, true);
+  const paragraphFade = useScrollFadeIn("up", 1, 0.2, true);
+  const ctaFade = useScrollFadeIn("up", 1, 0.2, true);
 
   const heroData = [
     {

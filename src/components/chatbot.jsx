@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./ChatBot.css";
+import "./chatbot.css";
 import bot from "../assets/markx-bot.png";
 
 const faqs = [
@@ -51,16 +51,16 @@ const ChatBot = () => {
 
   return (
     <>
-      
+
       <div className="bot-float" onClick={() => setOpen(!open)}>
         <img src={bot} alt="MarkX Bot" />
       </div>
 
-    
+
       {open && (
         <div className="bot-chat">
           <div className="bot-header">
-            MarkX 
+            MarkX
             <span onClick={() => setOpen(false)}>×</span>
           </div>
 
