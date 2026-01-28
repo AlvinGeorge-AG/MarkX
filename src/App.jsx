@@ -12,6 +12,7 @@ import NotFound from "./pages/notfound";
 import ChatBot from "./components/chatbot";
 import Insight from "./pages/Insight";
 import People from "./pages/people";
+import Report from "./pages/Report";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -43,6 +44,7 @@ const App = () => {
         <Route path="/audience-strategy" element={<ContactUs />} />
         <Route path="/content-system" element={<ContactUs />} />
         <Route path="/how-we-do-it" element={<ContactUs />} />
+        <Route path="/report" element={<Report />} />
 
       </Routes>
       <ChatBot />
