@@ -1,332 +1,56 @@
-/* Report.css */
+/* FORCE DARK THEME */
 .report-page {
-    background: radial-gradient(circle at 10% -10%, #1a1a1a 0%, #050505 45%, #040404 100%);
+    background: #050505 !important;
+    /* Force black */
+    color: #ffffff !important;
     min-height: 100vh;
-    padding: 90px 18px 48px 18px;
-    color: white;
+    padding: 40px 20px;
 }
 
-.report-container {
-    max-width: 1280px;
-    margin: 0 auto;
+.report-content {
+    background: #050505 !important;
+    color: white !important;
 }
 
-/* Header - Stack on Mobile */
-.report-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    border-bottom: 1px solid #2b2b2b;
-    padding-bottom: 22px;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-    gap: 18px;
+/* Fix the Metrics Bar labels (they are likely invisible right now) */
+.m-label {
+    color: #aaaaaa !important;
+    font-size: 11px;
 }
 
-.header-left {
+.m-val {
+    color: #ffffff !important;
+}
+
+/* FIX THE CALENDAR GRID VISIBILITY */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    /* 7 columns for 7 days */
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.calendar-day {
+    background: #111111 !important;
+    /* Dark card */
+    border: 1px solid #333333 !important;
+    padding: 15px;
+    border-radius: 12px;
+    min-height: 150px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
 }
 
-.report-eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    font-size: 11px;
-    color: #8d8d8d;
-    margin: 0;
-}
-
-.report-title {
-    font-size: 34px;
-    line-height: 1.1;
-    margin: 0;
-}
-
-.report-subtitle {
-    margin: 0;
-    color: #d2d2d2;
-}
-
-.highlight {
-    color: red;
-}
-
-.report-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 6px;
-}
-
-.meta-pill {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    padding: 6px 10px;
-    border-radius: 999px;
-    font-size: 12px;
-    color: #e6e6e6;
-}
-
-.header-actions {
-    display: flex;
-    gap: 10px;
-}
-
-/* Buttons */
-.download-btn {
-    background: linear-gradient(120deg, #ff2d2d, #ff5e2d);
-    border: none;
-    color: white;
-    padding: 12px 22px;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 14px;
-    box-shadow: 0 8px 20px rgba(255, 45, 45, 0.25);
-}
-
-.back-btn {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid #3a3a3a;
-    color: #e0e0e0;
-    padding: 12px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-/* --- GRID LAYOUT (Responsive) --- */
-.report-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* 3 Columns Desktop */
-    gap: 20px;
-}
-
-.full-width {
-    grid-column: span 3;
-}
-
-/* Cards (PDF baseline) */
-.report-card {
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    height: 100%;
-    /* Equal Height */
-}
-
-.report-card h3 {
-    color: #fff;
-    border-left: 3px solid red;
-    padding-left: 10px;
-    margin-bottom: 15px;
-    font-size: 18px;
-}
-
-/* Stats */
-.stat-row {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 15px;
-}
-
-.stat-val {
-    font-size: 20px;
-    font-weight: bold;
-    display: block;
-}
-
-.stat-label {
-    font-size: 11px;
-    color: #777;
-    text-transform: uppercase;
-}
-
-.bio-box {
-    background: #1a1a1a;
-    padding: 10px;
-    font-style: italic;
+.day-topic {
+    color: #eeeeee !important;
     font-size: 13px;
-    line-height: 1.4;
-    border-radius: 4px;
+    margin: 10px 0;
 }
 
-/* Tags & Lists */
-.tag-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 10px;
-}
-
-.tag {
-    background: rgba(255, 0, 0, 0.15);
-    color: red;
-    padding: 3px 8px;
-    border-radius: 12px;
-    font-size: 11px;
-}
-
-.insight-list {
-    padding: 0;
-    list-style: none;
-}
-
-.insight-list li {
-    border-bottom: 1px solid #222;
-    padding: 8px 0;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-/* Nested Objects */
-.nested-obj {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 10px;
-}
-
-.nested-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-    border-bottom: 1px solid #333;
-    font-size: 13px;
-}
-
-.nested-key {
-    color: #ff4444;
-    text-transform: capitalize;
-}
-
-.nested-val {
-    text-align: right;
-    color: #ccc;
-    max-width: 60%;
-}
-
-/* Strategy */
-.strategy-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.warning-card {
-    border: 1px solid rgba(255, 165, 0, 0.4);
-    background: rgba(255, 165, 0, 0.05);
-}
-
-/* PDF Only Elements */
-.pdf-only-logo {
-    display: none;
-    text-align: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid red;
-    padding-bottom: 10px;
-}
-
-.pdf-footer {
-    display: none;
-    text-align: center;
-    margin-top: 20px;
-    color: #555;
-    font-size: 10px;
-}
-
-/* --- SCREEN ONLY REFINEMENTS (won't affect PDF clone) --- */
-.screen-view {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 18px;
-    padding: 22px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-}
-
-.screen-view .report-grid {
-    gap: 24px;
-}
-
-.screen-view .report-card {
-    background: #0f1014;
-    border-color: #262626;
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.4);
-}
-
-.screen-view .report-card h3 {
-    font-size: 20px;
-}
-
-.screen-view .stat-val {
-    font-size: 26px;
-}
-
-.screen-view .stat-label {
-    font-size: 12px;
-}
-
-.screen-view .bio-box {
-    font-size: 14px;
-    padding: 12px;
-}
-
-.screen-view .tag {
-    font-size: 12px;
-    padding: 5px 10px;
-}
-
-.screen-view .insight-list li {
-    font-size: 15px;
-}
-
-/* --- MOBILE SPECIFIC FIXES --- */
-@media (max-width: 768px) {
-    .report-grid {
-        grid-template-columns: 1fr;
-        /* Stack Cards vertically */
-    }
-
-    .full-width {
-        grid-column: span 1;
-    }
-
-    .strategy-content {
-        grid-template-columns: 1fr;
-        /* Stack strategy columns */
-    }
-
-    .stat-row {
-        gap: 10px;
-    }
-
-    .report-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .report-title {
-        font-size: 26px;
-    }
-
-    .header-actions {
-        width: 100%;
-        justify-content: flex-start;
-        flex-wrap: wrap;
-    }
-
-    .download-btn,
-    .back-btn {
-        flex: 1;
-        /* Bigger buttons on mobile */
-    }
-
-    .screen-view {
-        padding: 16px;
+/* If on Mobile, stack the calendar */
+@media (max-width: 900px) {
+    .calendar-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
