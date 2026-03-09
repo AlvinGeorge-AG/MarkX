@@ -11,9 +11,9 @@ const Report = () => {
     const [activeDay, setActiveDay] = useState(0);
 
     const auditResult = location.state?.auditResult;
-    const profile = auditResult?.profile_data || {};
-    const stats = auditResult?.metadata_summary || {};
-    const report = auditResult?.analysis_report || {};
+    const profile = auditResult?.profile_data     || {};
+    const stats   = auditResult?.metadata_summary  || {};
+    const report  = auditResult?.analysis_report   || {};
 
     useEffect(() => {
         if (!auditResult) navigate("/insight");
@@ -22,20 +22,20 @@ const Report = () => {
     if (!auditResult) return null;
 
     // ── Derived shortcuts ────────────────────────────────────────────────────
-    const bench = stats.niche_benchmarking || {};
-    const diag = report.growth_diagnosis || {};
-    const optimal = report.optimal_strategy || {};
-    const roadmap = report.growth_roadmap || {};
-    const niche = report.niche_standing || {};
+    const bench   = stats.niche_benchmarking || {};
+    const diag    = report.growth_diagnosis  || {};
+    const optimal = report.optimal_strategy  || {};
+    const roadmap = report.growth_roadmap    || {};
+    const niche   = report.niche_standing    || {};
     const fmtPerf = stats.format_performance || {};
-    const mix = stats.content_mix || {};
-    const recMix = optimal.content_mix || {};
+    const mix     = stats.content_mix        || {};
+    const recMix  = optimal.content_mix      || {};
 
     const fmt = (n) => {
         const num = parseInt(n);
         if (isNaN(num)) return n ?? "—";
         if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
-        if (num >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
+        if (num >= 1_000)     return `${(num / 1_000).toFixed(1)}K`;
         return String(num);
     };
 
@@ -69,10 +69,10 @@ const Report = () => {
                 windowWidth: 1100,
             });
             document.body.removeChild(clone);
-            const imgData = canvas.toDataURL("image/png");
-            const imgWidth = 210;
+            const imgData    = canvas.toDataURL("image/png");
+            const imgWidth   = 210;
             const pageHeight = (canvas.height * imgWidth) / canvas.width;
-            const pdf = new jsPDF("p", "mm", [imgWidth, pageHeight]);
+            const pdf        = new jsPDF("p", "mm", [imgWidth, pageHeight]);
             pdf.addImage(imgData, "PNG", 0, 0, imgWidth, pageHeight);
             pdf.save(`MarkX_Strategy_${profile.profile}.pdf`);
         } catch (err) {
@@ -109,14 +109,10 @@ const Report = () => {
 
                     {/* ── 1. PROFILE IDENTITY CARD ────────────────────────── */}
                     <div className="profile-card">
-                        {profile.profile_pic_url && (
-                            <img
-                                src={profile.profile_pic_url}
-                                alt={profile.profile}
-                                className="profile-avatar"
-                                crossOrigin="anonymous"
-                            />
-                        )}
+                        <AvatarWithFallback
+                            src={profile.profile_pic_url}
+                            name={profile.full_name || profile.profile}
+                        />
                         <div className="profile-meta">
                             <div className="profile-name-row">
                                 <h2 className="profile-name">{profile.full_name}</h2>
@@ -338,13 +334,41 @@ const Report = () => {
     );
 };
 
+// ── Avatar with initials fallback (Instagram CDN blocks cross-origin) ───────
+const AvatarWithFallback = ({ src, name }) => {
+    const [failed, setFailed] = useState(false);
+    const initials = (name || "?")
+        .split(" ")
+        .map((w) => w[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+
+    if (!src || failed) {
+        return (
+            <div className="profile-avatar avatar-fallback">
+                {initials}
+            </div>
+        );
+    }
+
+    return (
+        <img
+            src={src}
+            alt={name}
+            className="profile-avatar"
+            onError={() => setFailed(true)}
+        />
+    );
+};
+
 // ── Reusable mix bar sub-component ──────────────────────────────────────────
 const MixBar = ({ reels = 0, carousel = 0, stat = 0 }) => (
     <div className="mix-bar-wrap">
         <div className="mix-bar">
-            <div className="mix-fill reels" style={{ width: `${reels}%` }} title={`Reels ${reels}%`} />
+            <div className="mix-fill reels"    style={{ width: `${reels}%` }}    title={`Reels ${reels}%`} />
             <div className="mix-fill carousels" style={{ width: `${carousel}%` }} title={`Carousel ${carousel}%`} />
-            <div className="mix-fill static" style={{ width: `${stat}%` }} title={`Static ${stat}%`} />
+            <div className="mix-fill static"   style={{ width: `${stat}%` }}     title={`Static ${stat}%`} />
         </div>
         <div className="mix-legend">
             <span><i className="dot reels" />    Reels {reels}%</span>
