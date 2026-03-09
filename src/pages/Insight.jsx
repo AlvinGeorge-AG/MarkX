@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import "./Insight.css";
 import Footer from "../components/Footer";
 
@@ -40,7 +40,7 @@ const Insight = () => {
     setError(null);
 
     try {
-      const response = await fetch("https://markx-backend-apify.onrender.com/analyze", {
+      const response = await fetch("https://markxbackendapify-production.up.railway.app/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: username }),

@@ -68,7 +68,8 @@ const BannerSlider = () => {
     setError(null);
 
     try {
-      const response = await fetch("https://markx-backend-apify.onrender.com/analyze", {
+      //https://markx-backend-apify.onrender.com
+      const response = await fetch("https://markxbackendapify-production.up.railway.app/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: username }),
