@@ -8,8 +8,8 @@ const Report = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isDownloading, setIsDownloading] = useState(false);
+    const [activeDay, setActiveDay] = useState(0);
 
-    // Updated Data Extraction to match our new Backend JSON
     const auditResult = location.state?.auditResult;
     const profile = auditResult?.profile_data || {};
     const stats = auditResult?.metadata_summary || {};
@@ -21,26 +21,53 @@ const Report = () => {
 
     if (!auditResult) return null;
 
+    // ── Derived shortcuts ────────────────────────────────────────────────────
+    const bench = stats.niche_benchmarking || {};
+    const diag = report.growth_diagnosis || {};
+    const optimal = report.optimal_strategy || {};
+    const roadmap = report.growth_roadmap || {};
+    const niche = report.niche_standing || {};
+    const fmtPerf = stats.format_performance || {};
+    const mix = stats.content_mix || {};
+    const recMix = optimal.content_mix || {};
+
+    const fmt = (n) => {
+        const num = parseInt(n);
+        if (isNaN(num)) return n ?? "—";
+        if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
+        if (num >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
+        return String(num);
+    };
+
+    const scoreColor = (s) => {
+        const n = parseInt(s);
+        if (n >= 8) return "#c9a84c";
+        if (n >= 6) return "#4caf7d";
+        return "#e05555";
+    };
+
+    // ── PDF ──────────────────────────────────────────────────────────────────
     const downloadPDF = async () => {
         setIsDownloading(true);
         const element = document.getElementById("report-to-pdf");
         try {
             const clone = element.cloneNode(true);
-            clone.style.width = "1100px"; // Slightly wider for the calendar grid
-            clone.style.position = "absolute";
-            clone.style.top = "-9999px";
-            clone.style.left = "0";
-            clone.style.background = "#050505";
-            clone.style.padding = "40px";
+            Object.assign(clone.style, {
+                width: "1100px",
+                position: "absolute",
+                top: "-9999px",
+                left: "0",
+                background: "#050505",
+                padding: "40px",
+                color: "white",
+            });
             document.body.appendChild(clone);
-
             const canvas = await html2canvas(clone, {
                 scale: 1.5,
                 useCORS: true,
                 backgroundColor: "#050505",
-                windowWidth: 1100
+                windowWidth: 1100,
             });
-
             document.body.removeChild(clone);
             const imgData = canvas.toDataURL("image/png");
             const imgWidth = 210;
@@ -59,129 +86,272 @@ const Report = () => {
         <div className="report-page fade-in">
             <div className="report-container">
 
-                {/* TOP ACTION BAR */}
+                {/* ACTION BAR */}
                 <header className="report-header">
                     <div className="header-left">
                         <p className="report-eyebrow">MarkX Strategic Engine v2</p>
                         <h1 className="report-title">Premium Growth Roadmap</h1>
-                        <p className="report-subtitle">Personalized for <span className="highlight">@{profile.profile}</span></p>
+                        <p className="report-subtitle">
+                            Personalised for <span className="highlight">@{profile.profile}</span>
+                        </p>
                     </div>
                     <div className="header-actions">
                         <button className="download-btn" onClick={downloadPDF} disabled={isDownloading}>
-                            {isDownloading ? "Generating..." : "Download Strategy PDF"}
+                            {isDownloading ? "Generating…" : "↓ Download PDF"}
                         </button>
-                        <button className="back-btn" onClick={() => navigate("/insight")}>New Audit</button>
+                        <button className="back-btn" onClick={() => navigate("/insight")}>
+                            New Audit
+                        </button>
                     </div>
                 </header>
 
-                <div className="screen-view">
-                    <div id="report-to-pdf" className="report-content">
+                <div id="report-to-pdf" className="report-content">
 
-                        {/* 1. TOP KEY METRICS (Numbers from ML Layer) */}
-                        <div className="metrics-bar">
-                            <div className="metric-box">
-                                <span className="m-label">Niche Standing</span>
-                                <span className="m-val">{report.niche_standing?.score}/10</span>
-                                <span className="m-sub">{report.niche_standing?.level}</span>
+                    {/* ── 1. PROFILE IDENTITY CARD ────────────────────────── */}
+                    <div className="profile-card">
+                        {profile.profile_pic_url && (
+                            <img
+                                src={profile.profile_pic_url}
+                                alt={profile.profile}
+                                className="profile-avatar"
+                                crossOrigin="anonymous"
+                            />
+                        )}
+                        <div className="profile-meta">
+                            <div className="profile-name-row">
+                                <h2 className="profile-name">{profile.full_name}</h2>
+                                {profile.is_verified && (
+                                    <span className="verified-badge" title="Verified">✓</span>
+                                )}
+                                {profile.is_business && (
+                                    <span className="biz-badge">Business</span>
+                                )}
                             </div>
-                            <div className="metric-box">
-                                <span className="m-label">Avg Engagement</span>
-                                <span className="m-val">{stats.niche_benchmarking?.engagement_rate}</span>
-                                <span className="m-sub">{stats.niche_benchmarking?.verdict}</span>
+                            <p className="profile-handle">@{profile.profile}</p>
+                            {profile.account_category && (
+                                <p className="profile-category">{profile.account_category}</p>
+                            )}
+                            <p className="profile-bio">{profile.bio}</p>
+                            {profile.website && (
+                                <a
+                                    href={profile.website}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="profile-website"
+                                >
+                                    🔗 {profile.website.replace(/^https?:\/\//, "")}
+                                </a>
+                            )}
+                        </div>
+                        <div className="profile-stats-row">
+                            <div className="pstat">
+                                <span className="pstat-val">{fmt(profile.followers)}</span>
+                                <span className="pstat-label">Followers</span>
                             </div>
-                            <div className="metric-box highlighted">
-                                <span className="m-label">Golden Posting Hour</span>
-                                <span className="m-val">{stats.best_time_to_post}</span>
-                                <span className="m-sub">India Standard Time (IST)</span>
+                            <div className="pstat">
+                                <span className="pstat-val">{fmt(profile.following)}</span>
+                                <span className="pstat-label">Following</span>
+                            </div>
+                            <div className="pstat">
+                                <span className="pstat-val">{fmt(profile.posts_count)}</span>
+                                <span className="pstat-label">Posts</span>
+                            </div>
+                            <div className="pstat accent">
+                                <span className="pstat-val">{bench.account_tier || "—"}</span>
+                                <span className="pstat-label">Tier</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* ── 2. KEY METRICS BAR ──────────────────────────────── */}
+                    <div className="metrics-bar">
+                        <div className="metric-box">
+                            <span className="m-label">Niche Score</span>
+                            <span className="m-val" style={{ color: scoreColor(niche.score) }}>
+                                {niche.score}/10
+                            </span>
+                            <span className="m-sub">{niche.level}</span>
+                        </div>
+                        <div className="metric-box">
+                            <span className="m-label">Engagement Rate</span>
+                            <span className="m-val">{bench.engagement_rate}</span>
+                            <span className="m-sub">{bench.benchmark_score} · {bench.verdict}</span>
+                        </div>
+                        <div className="metric-box highlighted">
+                            <span className="m-label">Golden Hour</span>
+                            <span className="m-val">{stats.best_time_to_post}</span>
+                            <span className="m-sub">Peak IST engagement</span>
+                        </div>
+                        <div className="metric-box">
+                            <span className="m-label">Avg Likes</span>
+                            <span className="m-val">{stats.average_likes?.toLocaleString() ?? "—"}</span>
+                            <span className="m-sub">{stats.average_comments ?? "—"} avg comments</span>
+                        </div>
+                        <div className="metric-box">
+                            <span className="m-label">Avg Reel Views</span>
+                            <span className="m-val">
+                                {stats.average_reel_views > 0
+                                    ? stats.average_reel_views.toLocaleString()
+                                    : "—"}
+                            </span>
+                            <span className="m-sub">Short-form reach</span>
+                        </div>
+                        <div className="metric-box">
+                            <span className="m-label">Post Frequency</span>
+                            <span className="m-val">{stats.posting_frequency || "—"}</span>
+                            <span className="m-sub">Current cadence</span>
+                        </div>
+                    </div>
+
+                    <div className="report-grid">
+
+                        {/* ── 3. MARKET POSITION ──────────────────────────── */}
+                        <div className="report-card">
+                            <h3>📍 Market Position</h3>
+                            <p className="niche-insight">{niche.insight}</p>
+                        </div>
+
+                        {/* ── 4. GROWTH DIAGNOSIS ─────────────────────────── */}
+                        <div className="report-card">
+                            <h3>🔍 Growth Diagnosis</h3>
+                            <div className="diag-item strength">
+                                <span className="diag-label">Strength</span>
+                                <p>{diag.strength}</p>
+                            </div>
+                            <div className="diag-item weakness">
+                                <span className="diag-label">Bottleneck</span>
+                                <p>{diag.weakness}</p>
+                            </div>
+                            <div className="diag-item opportunity">
+                                <span className="diag-label">Opportunity</span>
+                                <p>{diag.opportunity}</p>
                             </div>
                         </div>
 
-                        <div className="report-grid">
-                            {/* 2. NICHE ANALYSIS */}
-                            <div className="report-card">
-                                <h3>📍 Market Position</h3>
-                                <p className="niche-insight">{report.niche_standing?.insight}</p>
-                                <div className="pill-container">
-                                    {report.niche_analysis?.content_pillars?.map((p, i) => (
-                                        <span key={i} className="content-pill">{p}</span>
-                                    ))}
-                                </div>
-                                <div className="edge-box">
-                                    <strong>Competitive Edge:</strong> {report.niche_analysis?.competitive_edge}
-                                </div>
-                            </div>
+                        {/* ── 5. CONTENT ANALYTICS ────────────────────────── */}
+                        <div className="report-card">
+                            <h3>📊 Content Analytics</h3>
+                            <p className="mix-title">Current Mix</p>
+                            <MixBar reels={mix.reels} carousel={mix.carousel} stat={mix.static} />
 
-                            {/* 3. GROWTH DIAGNOSIS */}
-                            <div className="report-card">
-                                <h3>🔍 Growth Diagnosis</h3>
-                                <div className="diag-item">
-                                    <span className="diag-label">Core Strength</span>
-                                    <p>{report.growth_diagnosis?.strength}</p>
-                                </div>
-                                <div className="diag-item">
-                                    <span className="diag-label">Primary Bottleneck</span>
-                                    <p>{report.growth_diagnosis?.weakness}</p>
-                                </div>
-                            </div>
-
-                            {/* 4. OPTIMAL CONTENT MIX */}
-                            <div className="report-card">
-                                <h3>📊 Content Strategy</h3>
-                                <p>Recommended Frequency: <strong>{report.optimal_strategy?.recommended_frequency}</strong></p>
-                                <div className="mix-container">
-                                    <div className="mix-bar">
-                                        <div className="mix-fill reels" style={{ width: `${report.optimal_strategy?.content_mix?.reels}%` }}></div>
-                                        <div className="mix-fill carousels" style={{ width: `${report.optimal_strategy?.content_mix?.carousel}%` }}></div>
+                            <div className="fmt-verdict-box">
+                                <span className="fmt-label">Format Intel</span>
+                                <p>{fmtPerf.verdict}</p>
+                                <div className="fmt-compare">
+                                    <div className="fmt-stat">
+                                        <span>{fmtPerf.avg_reel_engagement?.toLocaleString() ?? "—"}</span>
+                                        <small>Avg Reel Eng.</small>
                                     </div>
-                                    <div className="mix-legend">
-                                        <span><i className="dot reels"></i> Reels ({report.optimal_strategy?.content_mix?.reels}%)</span>
-                                        <span><i className="dot carousels"></i> Other ({report.optimal_strategy?.content_mix?.carousel + report.optimal_strategy?.content_mix?.static}%)</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* 5. THE 7-DAY CALENDAR */}
-                            <div className="report-card full-width">
-                                <h3>🗓️ 7-Day Tactical Execution Plan</h3>
-                                <div className="calendar-grid">
-                                    {/* CHANGE: 'seven_day_calendar' to 'seven_day_plan' */}
-                                    {report.seven_day_plan?.map((item, idx) => (
-                                        <div key={idx} className="calendar-day">
-                                            <span className="day-num">Day {idx + 1}</span>
-                                            {/* CHANGE: 'type' to 'content_type' */}
-                                            <span className="day-type">{item.content_type}</span>
-                                            {/* CHANGE: 'topic' to 'idea' (since our AI prompt changed) */}
-                                            <p className="day-topic">{item.idea}</p>
-                                            {/* CHANGE: 'timing' to 'posting_time' */}
-                                            <span className="day-time">⏰ {item.posting_time}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* 6. ROADMAP */}
-                            <div className="report-card full-width">
-                                <h3>🚀 Long-term Roadmap</h3>
-                                <div className="roadmap-content">
-                                    <div className="road-col">
-                                        <h4>Immediate Actions</h4>
-                                        <ul>
-                                            {report.growth_roadmap?.immediate_actions?.map((a, i) => <li key={i}>{a}</li>)}
-                                        </ul>
-                                    </div>
-                                    <div className="road-col">
-                                        <h4>Strategic Vision</h4>
-                                        <p>{report.growth_roadmap?.long_term_vision}</p>
+                                    <div className="fmt-vsep">vs</div>
+                                    <div className="fmt-stat">
+                                        <span>{fmtPerf.avg_static_engagement?.toLocaleString() ?? "—"}</span>
+                                        <small>Avg Static Eng.</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div className="pdf-footer">Generated by MarkX Strategic Engine • Confidential Growth Audit</div>
+
+                        {/* ── 6. OPTIMAL STRATEGY ─────────────────────────── */}
+                        <div className="report-card">
+                            <h3>🎯 Recommended Strategy</h3>
+                            <div className="strategy-pills">
+                                <div className="spill">
+                                    <span className="spill-label">Frequency</span>
+                                    <span className="spill-val">{optimal.recommended_frequency || "—"}</span>
+                                </div>
+                                <div className="spill">
+                                    <span className="spill-label">Best Time</span>
+                                    <span className="spill-val">{optimal.best_posting_time || "—"}</span>
+                                </div>
+                            </div>
+                            <p className="mix-title" style={{ marginTop: 16 }}>Recommended Mix</p>
+                            <MixBar reels={recMix.reels} carousel={recMix.carousel} stat={recMix.static} />
+                        </div>
+
+                        {/* ── 7. 7-DAY CALENDAR ───────────────────────────── */}
+                        <div className="report-card full-width">
+                            <h3>🗓️ 7-Day Tactical Execution Plan</h3>
+
+                            {/* Mobile tab row */}
+                            <div className="day-tabs">
+                                {report.seven_day_plan?.map((_, idx) => (
+                                    <button
+                                        key={idx}
+                                        className={`day-tab${activeDay === idx ? " active" : ""}`}
+                                        onClick={() => setActiveDay(idx)}
+                                    >
+                                        D{idx + 1}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="calendar-grid">
+                                {report.seven_day_plan?.map((item, idx) => (
+                                    <div
+                                        key={idx}
+                                        className={`calendar-day${activeDay === idx ? " active-day" : ""}`}
+                                        onClick={() => setActiveDay(idx)}
+                                    >
+                                        <span className="day-num">{item.day}</span>
+                                        <span className={`day-type type-${item.content_type?.toLowerCase()}`}>
+                                            {item.content_type}
+                                        </span>
+                                        <p className="day-topic">{item.idea}</p>
+                                        <span className="day-time">⏰ {item.posting_time}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* ── 8. ROADMAP ──────────────────────────────────── */}
+                        <div className="report-card full-width">
+                            <h3>🚀 Growth Roadmap</h3>
+                            <div className="roadmap-content">
+                                <div className="road-col">
+                                    <h4>Immediate Actions</h4>
+                                    <ul className="action-list">
+                                        {roadmap.immediate_actions?.map((a, i) => (
+                                            <li key={i}>
+                                                <span className="action-num">
+                                                    {String(i + 1).padStart(2, "0")}
+                                                </span>
+                                                {a}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="road-col">
+                                    <h4>6-Month Vision</h4>
+                                    <p className="vision-text">{roadmap.long_term_vision}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div className="pdf-footer">
+                        Generated by MarkX Strategic Engine v2 · Confidential Growth Audit · @{profile.profile}
                     </div>
                 </div>
             </div>
         </div>
     );
 };
+
+// ── Reusable mix bar sub-component ──────────────────────────────────────────
+const MixBar = ({ reels = 0, carousel = 0, stat = 0 }) => (
+    <div className="mix-bar-wrap">
+        <div className="mix-bar">
+            <div className="mix-fill reels" style={{ width: `${reels}%` }} title={`Reels ${reels}%`} />
+            <div className="mix-fill carousels" style={{ width: `${carousel}%` }} title={`Carousel ${carousel}%`} />
+            <div className="mix-fill static" style={{ width: `${stat}%` }} title={`Static ${stat}%`} />
+        </div>
+        <div className="mix-legend">
+            <span><i className="dot reels" />    Reels {reels}%</span>
+            <span><i className="dot carousels" /> Carousel {carousel}%</span>
+            <span><i className="dot static" />   Static {stat}%</span>
+        </div>
+    </div>
+);
 
 export default Report;
