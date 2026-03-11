@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"; // ✅ Import this
 import "./contactus.css";
 import Footer from "../components/Footer";
 import logo from "../assets/logo2.png";
+import { Instagram, Mail } from "lucide-react";
 
 const ContactUs = () => {
   const navigate = useNavigate(); // ✅ Initialize navigation
@@ -117,14 +118,14 @@ const ContactUs = () => {
                     rel="noreferrer"
                     className="social-icon instagram"
                   >
-                    📸
+                    <Instagram size={20} />
                   </a>
 
                   <a
                     href="https://mail.google.com/mail/?view=cm&fs=1&to=markxoffice@gmail.com"
                     className="social-icon gmail"
                   >
-                    ✉️
+                    <Mail size={20} />
                   </a>
                 </div>
               </div>

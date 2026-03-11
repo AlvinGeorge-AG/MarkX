@@ -1,21 +1,22 @@
 import "./WhatIsMarkX.css";
+import { Gift, Sparkles, Percent } from "lucide-react";
 
 const WhatIsMarkX = () => {
   return (
     <section className="markx-section">
 
       <div className="markx-header">
-        <h2 background-color="rgba(255, 30, 0, 0.21);">
+        <h2>
         <marquee direction="left">What is <span className="markx-span">MarkX?</span></marquee>
         </h2>
-        <p className="tagline" style={{ color: "red" }}>
+        <p className="tagline">
           A Strategic Revolution in Modern Marketing.
         </p>
       </div>
 
       <div className="highlight-quote">
         <p>
-          “MarkX — the world’s first agency with an in-house AI Instagram
+          “<span className="markx-span">MarkX</span> — the world’s first agency with an in-house AI Instagram
           Marketing Expert.”
         </p>
       </div>
@@ -40,7 +41,7 @@ const WhatIsMarkX = () => {
       <div className="origin">
         <h3>The Origin of <span>MarkX</span></h3>
         <p className="origin-text">
-          MarkX was born out of a simple but powerful belief:
+          <span className="markx-span">MarkX</span> was born out of a simple but powerful belief:
         </p>
 
         <div className="origin-quote">
@@ -66,7 +67,7 @@ const WhatIsMarkX = () => {
           </div>
 
           <div className="diff-card diff-right">
-            <h4>MarkX</h4>
+            <h4><span className="markx-span">MarkX</span></h4>
             <ul>
               <li>Focus on value + impact</li>
               <li>Build marketing systems</li>
@@ -87,21 +88,21 @@ const WhatIsMarkX = () => {
         <div className="offers-grid">
           <div className="offer-card">
             <span className="badge new">New Client</span>
-            <div className="offer-icon">🎁</div>
+            <div className="offer-icon"><Gift size={42} /></div>
             <h4>Free first audit for all new clients</h4>
             <p>Complete strategy review</p>
           </div>
 
           <div className="offer-card">
             <span className="badge seasonal">Seasonal</span>
-            <div className="offer-icon">✨</div>
+            <div className="offer-icon"><Sparkles size={42} /></div>
             <h4>Seasonal campaigns & festival drops</h4>
             <p>Diwali, month-end & launch focused marketing</p>
           </div>
 
           <div className="offer-card">
             <span className="badge save">Save 10%</span>
-            <div className="offer-icon">💸</div>
+            <div className="offer-icon"><Percent size={42} /></div>
             <h4>10% off your first service</h4>
             <p>Exclusive first-time discount</p>
           </div>

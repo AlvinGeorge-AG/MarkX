@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Insight.css";
 import Footer from "../components/Footer";
+import { Zap, Eye, Search, Clock } from "lucide-react";
 
 const Insight = () => {
   const navigate = useNavigate();
@@ -66,16 +67,16 @@ const Insight = () => {
       {/* WRAPPER DIV for Blur Effect */}
       <div className={`insight-page ${isModalOpen ? "blur-background" : ""}`}>
 
-        <section className="insight-hero fade-in">
-          <span className="insight-badge">Strategic Brand Intelligence</span>
-          <h1>What is<span style={{ color: "red" }}> MarkX Insight</span>?</h1>
-          <p>
-            A strategic brand-auditing tool powered by psychology and performance logic.
-            <br />
-            It’s not just about what works — it’s about understanding
-            <strong> why your audience responds</strong>.
-          </p>
-        </section>
+      <section className="insight-hero fade-in">
+        <span className="insight-badge">Strategic Brand Intelligence</span>
+        <h1>What is<span style={{background: "linear-gradient(45deg, #f09433, #fd5949, #d6249f, #285AEB)",backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text",color: "transparent",display: "inline-block"}}> MarkX Insight</span>?</h1>
+        <p>
+          A strategic brand-auditing tool powered by psychology and performance logic.
+          <br />
+          It’s not just about what works — it’s about understanding
+          <strong> why your audience responds</strong>.
+        </p>
+      </section>
 
         <section className="audience-card slide-up">
           <h2>Audience-First Strategy</h2>
@@ -160,10 +161,10 @@ const Insight = () => {
         <section className="features-section">
           <h2 className="section-title">Advanced Features</h2>
           <div className="features-grid">
-            <div className="feature-card">⚡ Tailored Workflows</div>
-            <div className="feature-card">👁 Custom Views</div>
-            <div className="feature-card">🔍 Smart Filters</div>
-            <div className="feature-card">⏱ Auto SLAs</div>
+            <div className="feature-card"><Zap size={20} className="feature-icon" /> Tailored Workflows</div>
+            <div className="feature-card"><Eye size={20} className="feature-icon" /> Custom Views</div>
+            <div className="feature-card"><Search size={20} className="feature-icon" /> Smart Filters</div>
+            <div className="feature-card"><Clock size={20} className="feature-icon" /> Auto SLAs</div>
           </div>
         </section>
 

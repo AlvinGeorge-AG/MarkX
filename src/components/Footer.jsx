@@ -27,8 +27,8 @@ const Footer = () => {
           rel="noopener noreferrer"
           className="footer-email"
         >
-          <Mail size={16} />
-          <span>markxoffice@gmail.com</span>
+          <Mail size={16} color="#d62976" />
+          <span className="insta-text">markxoffice@gmail.com</span>
         </a>
 
       </div>
@@ -36,7 +36,7 @@ const Footer = () => {
       <div className="footer-divider" />
 
       <div className="footer-bottom">
-        <span>© 2025 MarkX. All rights reserved.</span>
+        <span className="insta-text">© 2026 MarkX. All rights reserved.</span>
 
        
       </div>

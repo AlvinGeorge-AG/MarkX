@@ -48,8 +48,23 @@
 }
 
 .custom-progress .progress-bar {
-  background: linear-gradient(90deg, #D97706, #8B5E3C); /* orange → brown gradient */
-  transition: width 0.3s ease-in-out; /* smooth increase */
+  background: linear-gradient(
+    270deg,
+    #C13584,
+    #833AB4,
+    #405DE6,
+    #FD1D1D,
+    #F56040
+  );
+  background-size: 400% 400%;
+  animation: instagramGradient 4s ease infinite;
+  transition: width 0.3s ease-in-out; 
+}
+
+@keyframes instagramGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 span{
