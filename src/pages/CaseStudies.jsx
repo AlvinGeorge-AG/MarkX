@@ -56,7 +56,7 @@ const CaseStudies = () => {
       image: Lenient,
       badgeText: "education and industry",
       link:"",
-      title: " VJ Infinity-Performar and Personal Brand",
+      title: " Lenient Tree",
       description: "Lenient Tree is a student-driven Web3 & startup community focused on bridging the gap between education and industry..",
       stats: ["5k view", "2k Engagement", "Brand Growth"],
       reverse: false
@@ -70,7 +70,7 @@ const CaseStudies = () => {
     
       <div className="row justify-content-center text-center mb-4" {...headingFade}>
         <div className="col-12">
-          <h1 className="head1" style={{ color: "red" }}>Real Results</h1>
+          <h1 className="head1"style={{background: "linear-gradient(45deg, #f09433, #fd5949, #d6249f, #285AEB)",backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text",color: "transparent",display: "inline-block"}}>Real Results</h1>
        
         </div>
       </div>

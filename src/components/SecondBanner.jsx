@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./SecondBanner.css";
+import { Zap, Eye, Brain } from "lucide-react";
 
 const SecondBanner = () => {
   return (
@@ -15,7 +16,7 @@ const SecondBanner = () => {
 
       <div className="card-container">
         <Link to="/ai-psychology" className="card">
-          <div className="icon">⚡</div>
+          <div className="icon"><Zap size={32} color="white" /></div>
           <h3>AI + Psychology Engine</h3>
           <p>
             We don't guess. We audit, analyze, and scale using audience behavior
@@ -24,7 +25,7 @@ const SecondBanner = () => {
         </Link>
 
         <Link to="/audience-strategy" className="card active">
-          <div className="icon">👁️</div>
+          <div className="icon"><Eye size={32} color="white" /></div>
           <h3>Audience-First Strategy</h3>
           <p>
             Your growth isn't based on trends — it's built from what your
@@ -33,7 +34,7 @@ const SecondBanner = () => {
         </Link>
 
         <Link to="/content-system" className="card">
-          <div className="icon">🧠</div>
+          <div className="icon"><Brain size={32} color="white" /></div>
           <h3>Smart Content System</h3>
           <p>
             Every caption, post, and plan is rooted in brand psychology and

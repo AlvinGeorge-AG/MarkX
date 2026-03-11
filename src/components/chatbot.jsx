@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./chatbot.css";
 import bot from "../assets/markx-bot.png";
 
@@ -48,12 +48,64 @@ const faqs = [
 const ChatBot = () => {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const dragInfo = useRef({ startX: 0, startY: 0, initialX: 0, initialY: 0, isDragging: false });
+
+  const handlePointerDown = (e) => {
+    e.target.setPointerCapture(e.pointerId);
+    dragInfo.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      initialX: position.x,
+      initialY: position.y,
+      isDragging: false,
+    };
+  };
+
+  const handlePointerMove = (e) => {
+    if (!e.target.hasPointerCapture(e.pointerId)) return;
+    
+    const dx = e.clientX - dragInfo.current.startX;
+    const dy = e.clientY - dragInfo.current.startY;
+    
+    if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+      dragInfo.current.isDragging = true;
+      setIsDragging(true);
+    }
+
+    if (dragInfo.current.isDragging) {
+      setPosition({
+        x: dragInfo.current.initialX + dx,
+        y: dragInfo.current.initialY + dy
+      });
+    }
+  };
+
+  const handlePointerUp = (e) => {
+    e.target.releasePointerCapture(e.pointerId);
+    if (!dragInfo.current.isDragging) {
+      setOpen(!open);
+    }
+    setIsDragging(false);
+    dragInfo.current.isDragging = false;
+  };
 
   return (
     <>
-
-      <div className="bot-float" onClick={() => setOpen(!open)}>
-        <img src={bot} alt="MarkX Bot" />
+      <div 
+        className={`bot-float ${isDragging ? "dragging" : ""}`} 
+        style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+      >
+        <div className="bot-icon-wrapper" style={{ pointerEvents: "none" }}>
+          <div className="bot-pulse-1"></div>
+          <div className="bot-pulse-2"></div>
+          <img src={bot} alt="MarkX Bot" />
+        </div>
       </div>
 
 
