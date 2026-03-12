@@ -47,7 +47,7 @@
   position: relative;
   width: 90%;
   max-width: 1100px;
-  height: 650px;
+  height: 750px;
   overflow: hidden;
 }
 
@@ -145,6 +145,33 @@
   margin-bottom: 40px;
 }
 
+/* Staggered text animations for active card */
+.founder-id-card .top-info,
+.founder-id-card .photo-container,
+.founder-id-card .about-section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.founder-id-card.active .top-info {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.3s;
+}
+
+.founder-id-card.active .photo-container {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.5s;
+}
+
+.founder-id-card.active .about-section {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.7s;
+}
+
 .photo-glow-ring {
   position: absolute;
   width: 230px;
@@ -233,6 +260,10 @@
   margin-bottom: 15px;
 }
 
+.words-title {
+  margin-top: 25px;
+}
+
 .about-section p {
   font-size: 15px;
   line-height: 1.7;
@@ -246,7 +277,7 @@
 
 @media (max-width: 900px) {
   .slider-wrapper {
-    height: 750px;
+    height: 900px;
   }
   
   .founder-id-card {
@@ -279,12 +310,22 @@
 
 @media (max-width: 480px) {
   .slider-wrapper {
-    height: 800px;
+    height: 950px;
   }
 
   .photo-wrapper {
     width: 150px;
     height: 150px;
+  }
+
+  .photo-glow-ring {
+    width: 170px;
+    height: 170px;
+  }
+
+  .photo-glow-ring-2 {
+    width: 160px;
+    height: 160px;
   }
 
   .top-info h2 {

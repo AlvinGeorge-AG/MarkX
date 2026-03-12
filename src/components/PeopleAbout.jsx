@@ -10,6 +10,8 @@ const people = [
     image: Founder,
     about:
       "Shubhrajyoti Adhikary is a multifaceted AI-driven digital and performance marketing strategist and visionary founder of MarkX.",
+    wordsForMarkX:
+      "MarkX is a next-generation marketing intelligence company building AI-driven systems that turn data, psychology, and creativity into scalable brand growth. Our vision is to redefine how the world markets—replacing guesswork with intelligence and empowering brands, creators, and businesses to grow smarter,faster, and globally.",
     highlight: true
   },
   {
@@ -18,6 +20,8 @@ const people = [
     image: CoFounder,
     about:
       "Yashika Pandita leads operations, execution strategy, and structural growth at MarkX.",
+    wordsForMarkX:
+      "MarkX is a future-focused marketing intelligence company where strategy, data, and AI come together to drive meaningful brand growth.Our vision is to build a scalable global ecosystem that transforms marketing from manual execution into intelligent, insight led decision-making for businesses of every size.",
     highlight: false
   }
 ];
@@ -81,6 +85,12 @@ const PeopleAbout = () => {
             <div className="about-section">
               <h3>About:</h3>
               <p>{person.about}</p>
+              {person.wordsForMarkX && (
+                <>
+                  <h3 className="words-title">Words for MarkX:</h3>
+                  <p>{person.wordsForMarkX}</p>
+                </>
+              )}
             </div>
 
           </div>
