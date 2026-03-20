@@ -67,16 +67,16 @@ const Insight = () => {
       {/* WRAPPER DIV for Blur Effect */}
       <div className={`insight-page ${isModalOpen ? "blur-background" : ""}`}>
 
-      <section className="insight-hero fade-in">
-        <span className="insight-badge">Strategic Brand Intelligence</span>
-        <h1>What is<span style={{background: "linear-gradient(45deg, #f09433, #fd5949, #d6249f, #285AEB)",backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text",color: "transparent",display: "inline-block"}}> MarkX Insight</span>?</h1>
-        <p>
-          A strategic brand-auditing tool powered by psychology and performance logic.
-          <br />
-          It’s not just about what works — it’s about understanding
-          <strong> why your audience responds</strong>.
-        </p>
-      </section>
+        <section className="insight-hero fade-in">
+          <span className="insight-badge">Strategic Brand Intelligence</span>
+          <h1>What is<span style={{ background: "linear-gradient(45deg, #f09433, #fd5949, #d6249f, #285AEB)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", color: "transparent", display: "inline-block" }}> MarkX Insight</span>?</h1>
+          <p>
+            A strategic brand-auditing tool powered by psychology and performance logic.
+            <br />
+            It’s not just about what works — it’s about understanding
+            <strong> why your audience responds</strong>.
+          </p>
+        </section>
 
         <section className="audience-card slide-up">
           <h2>Audience-First Strategy</h2>
