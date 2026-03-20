@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Report.css";
 
-const BACKEND_URL = import.meta.env.VITE_API_URL || "https://your-backend.onrender.com";
+const BACKEND_URL = import.meta.env.VITE_API_URL || "https://markxbackendapify-production.up.railway.app";
 
 const Report = () => {
     const location = useLocation();
