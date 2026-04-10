@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { Link } from "react-router-dom";
+import { Sparkles, TrendingUp, Users, Heart } from "lucide-react";
 import "./Hero.css";
 
 const Hero = ({
@@ -14,6 +15,12 @@ const Hero = ({
 }) => {
   const heroRef = useRef(null);
   const [progress, setProgress] = useState(0);
+
+  const iconMap = {
+    "2k view": <TrendingUp size={16} className="icon-pulse" />,
+    "2k Engagement": <Heart size={16} className="icon-pulse" />,
+    "Brand Loyalty": <Users size={16} className="icon-pulse" />,
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,11 +60,16 @@ const Hero = ({
 
         {/* Text */}
         <div className="col-12 col-md-6">
-          <h3 className="hero-title">{title}</h3>
+          <h3 className="hero-title">
+            <Sparkles className="icon-float" size={32} style={{ color: '#ff7ad9', marginRight: '10px' }} />
+            {title.replace("🌼", "")}
+          </h3>
 
           <div className="d-flex flex-wrap gap-2 mb-3">
             {stats.map((stat, i) => (
-              <span key={i} className="tags">{stat}</span>
+              <span key={i} className="tags">
+                {iconMap[stat]} {stat}
+              </span>
             ))}
           </div>
 

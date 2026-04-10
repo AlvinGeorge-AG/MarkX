@@ -26,14 +26,9 @@ const slides = [
   },
 ];
 
-const BannerSlider = () => {
+const BannerSlider = ({ onAuditClick }) => {
   const [current, setCurrent] = useState(0);
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [username, setUsername] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingText, setLoadingText] = useState("Initializing AI...");
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -69,7 +64,6 @@ const BannerSlider = () => {
 
     try {
       //https://markx-backend-apify.onrender.com
-      
       const response = await fetch("https://markx-backend-apify.onrender.com/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -97,7 +91,7 @@ const BannerSlider = () => {
 
   const handleSlideAction = (link) => {
     if (link === "/audit") {
-      setIsModalOpen(true);
+      onAuditClick();
       return;
     }
     navigate(link);
@@ -110,6 +104,11 @@ const BannerSlider = () => {
           <div
             key={index}
             className={`slide ${index === current ? "active" : ""}`}
+            style={{
+              opacity: index === current ? 1 : 0,
+              pointerEvents: index === current ? "auto" : "none",
+              visibility: index === current ? "visible" : "hidden"
+            }}
           >
             <h1>
               {slide.title}
@@ -118,51 +117,24 @@ const BannerSlider = () => {
               {slide.subtitle}
             </h1>
 
-            <button style={{ color: "dark white" }} onClick={() => handleSlideAction(slide.link)}>
+            <button className="slide-btn" onClick={() => handleSlideAction(slide.link)}>
               {slide.button}
             </button>
           </div>
         ))}
-
-        <div className="insta-cta">
-          <button
-            className="insta-btn"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Get Audit
-          </button>
-        </div>
       </section>
 
-      {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content slide-up">
-            <button className="close-btn" onClick={handleCloseModal}>&times;</button>
-
-            {!isLoading ? (
-              <>
-                <h2>Audit Your Profile</h2>
-                <p>Enter your Instagram username to generate a comprehensive AI growth report.</p>
-                <input
-                  type="text"
-                  placeholder="@username"
-                  className="modal-input"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <button className="modal-submit-btn" onClick={handleGetAudit}>Generate Report 🚀</button>
-                {error && <p className="error-text">{error}</p>}
-              </>
-            ) : (
-              <div className="loading-state">
-                <div className="spinner"></div>
-                <h3>Processing Data...</h3>
-                <p className="loading-text">{loadingText}</p>
-              </div>
-            )}
-          </div>
+      {/* Repositioned Get Audit Section - "Under the page" */}
+      <div className="insta-cta-section">
+        <div className="container text-center">
+            <button
+            className="insta-btn magnet-btn"
+            onClick={onAuditClick}
+            >
+            Get Audit Now ⚡
+            </button>
         </div>
-      )}
+      </div>
     </>
   );
 };

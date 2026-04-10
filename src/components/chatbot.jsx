@@ -45,8 +45,9 @@ const faqs = [
   }
 ];
 
-const ChatBot = () => {
+const ChatBot = ({ onAuditClick }) => {
   const [open, setOpen] = useState(false);
+  const [menuType, setMenuType] = useState(null); // 'audit' or 'qn'
   const [active, setActive] = useState(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -82,10 +83,15 @@ const ChatBot = () => {
     }
   };
 
-  const handlePointerUp = (e) => {
+  const handlePointerUp = (e, type = "audit") => {
     e.target.releasePointerCapture(e.pointerId);
     if (!dragInfo.current.isDragging) {
-      setOpen(!open);
+      if (open && menuType === type) {
+        setOpen(false);
+      } else {
+        setMenuType(type);
+        setOpen(true);
+      }
     }
     setIsDragging(false);
     dragInfo.current.isDragging = false;
@@ -94,17 +100,31 @@ const ChatBot = () => {
   return (
     <>
       <div 
-        className={`bot-float ${isDragging ? "dragging" : ""}`} 
+        className={`bot-group ${isDragging ? "dragging" : ""}`} 
         style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
       >
-        <div className="bot-icon-wrapper" style={{ pointerEvents: "none" }}>
-          <div className="bot-pulse-1"></div>
-          <div className="bot-pulse-2"></div>
-          <img src={bot} alt="MarkX Bot" />
+        <div 
+          className="bot-qn-btn"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={(e) => handlePointerUp(e, "qn")}
+          onPointerCancel={(e) => handlePointerUp(e, "qn")}
+        >
+          Q & N
+        </div>
+
+        <div 
+          className="bot-float"
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={(e) => handlePointerUp(e, "audit")}
+          onPointerCancel={(e) => handlePointerUp(e, "audit")}
+        >
+          <div className="bot-icon-wrapper" style={{ pointerEvents: "none" }}>
+            <div className="bot-pulse-1"></div>
+            <div className="bot-pulse-2"></div>
+            <img src={bot} alt="MarkX Bot" />
+          </div>
         </div>
       </div>
 
@@ -112,33 +132,46 @@ const ChatBot = () => {
       {open && (
         <div className="bot-chat">
           <div className="bot-header">
-            MarkX
-            <span onClick={() => setOpen(false)}>×</span>
+            {menuType === "qn" ? "Q & N" : "Free Audit"}
+            <span onClick={() => { setOpen(false); setActive(null); }}>×</span>
           </div>
 
           <div className="bot-body">
-            {!active && (
+            {menuType === "qn" ? (
               <>
-                <p className="bot-hint">Ask me anything 👇</p>
-                {faqs.map((item, i) => (
-                  <div
-                    key={i}
-                    className="bot-question"
-                    onClick={() => setActive(item)}
-                  >
-                    {item.q}
-                  </div>
-                ))}
-              </>
-            )}
+                {!active && (
+                  <>
+                    <p className="bot-hint">Frequently Asked Questions 👇</p>
+                    {faqs.map((item, i) => (
+                      <div
+                        key={i}
+                        className="bot-question"
+                        onClick={() => setActive(item)}
+                      >
+                        {item.q}
+                      </div>
+                    ))}
+                  </>
+                )}
 
-            {active && (
-              <>
-                <div className="bot-answer">{active.a}</div>
-                <button className="bot-back" onClick={() => setActive(null)}>
-                  ← Back
-                </button>
+                {active && (
+                  <>
+                    <div className="bot-answer">{active.a}</div>
+                    <button className="bot-back" onClick={() => setActive(null)}>
+                      ← Back
+                    </button>
+                  </>
+                )}
               </>
+            ) : (
+              <div className="bot-audit-content">
+                <h3>Get Your Free Content Audit! 🚀</h3>
+                <p>Want to scale your brand? Our experts will analyze your Instagram/Website and provide a personalized strategy.</p>
+                <div className="bot-audit-action magnet-btn" onClick={onAuditClick}>
+                  Get Audit Now ⚡
+                </div>
+                <p className="bot-hint" style={{ marginTop: '15px' }}>Average response time: 2-4 hours</p>
+              </div>
             )}
           </div>
         </div>
