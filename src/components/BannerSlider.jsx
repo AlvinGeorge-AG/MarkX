@@ -38,60 +38,6 @@ const BannerSlider = ({ onAuditClick }) => {
     return () => clearInterval(interval);
   }, []);
 
-<<<<<<< HEAD
-=======
-  useEffect(() => {
-    if (!isLoading) return;
-    const messages = [
-      "📡 Connecting to Instagram...",
-      "🔍 Scraping public metrics...",
-      "🧠 Analyzing Brand Persona...",
-      "🎯 Identifying Target Audience...",
-      "🚀 Generating Growth Strategy...",
-      "✨ Finalizing Report..."
-    ];
-    let i = 0;
-    setLoadingText(messages[0]);
-    const interval = setInterval(() => {
-      i = (i + 1) % messages.length;
-      setLoadingText(messages[i]);
-    }, 2500);
-    return () => clearInterval(interval);
-  }, [isLoading]);
-
-  const handleGetAudit = async () => {
-    if (!username.trim()) return;
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      //https://markx-backend-apify.onrender.com
-      const response = await fetch("https://markx-backend-apify.onrender.com/analyze", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: username }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.detail || "Failed to analyze profile.");
-      }
-
-      navigate("/report", { state: { auditResult: data } });
-    } catch (err) {
-      setError(err.message);
-      setIsLoading(false);
-    }
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setIsLoading(false);
-    setError(null);
-  };
-
->>>>>>> 484e1470ffaca60854ac1cb0cac67a646fdf84ad
   const handleSlideAction = (link) => {
     if (link === "/audit") {
       onAuditClick();
