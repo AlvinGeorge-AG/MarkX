@@ -69,6 +69,7 @@ const BannerSlider = () => {
 
     try {
       //https://markx-backend-apify.onrender.com
+      
       const response = await fetch("https://markx-backend-apify.onrender.com/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
