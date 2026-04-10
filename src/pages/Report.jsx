@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 import "./Report.css";
+
+const BACKEND_URL = import.meta.env.VITE_API_URL || "https://markx-backend-apify.onrender.com";
 
 const Report = () => {
     const location = useLocation();
@@ -11,9 +11,9 @@ const Report = () => {
     const [activeDay, setActiveDay] = useState(0);
 
     const auditResult = location.state?.auditResult;
-    const profile = auditResult?.profile_data     || {};
-    const stats   = auditResult?.metadata_summary  || {};
-    const report  = auditResult?.analysis_report   || {};
+    const profile = auditResult?.profile_data || {};
+    const stats = auditResult?.metadata_summary || {};
+    const report = auditResult?.analysis_report || {};
 
     useEffect(() => {
         if (!auditResult) navigate("/insight");
@@ -22,20 +22,20 @@ const Report = () => {
     if (!auditResult) return null;
 
     // ── Derived shortcuts ────────────────────────────────────────────────────
-    const bench   = stats.niche_benchmarking || {};
-    const diag    = report.growth_diagnosis  || {};
-    const optimal = report.optimal_strategy  || {};
-    const roadmap = report.growth_roadmap    || {};
-    const niche   = report.niche_standing    || {};
+    const bench = stats.niche_benchmarking || {};
+    const diag = report.growth_diagnosis || {};
+    const optimal = report.optimal_strategy || {};
+    const roadmap = report.growth_roadmap || {};
+    const niche = report.niche_standing || {};
     const fmtPerf = stats.format_performance || {};
-    const mix     = stats.content_mix        || {};
-    const recMix  = optimal.content_mix      || {};
+    const mix = stats.content_mix || {};
+    const recMix = optimal.content_mix || {};
 
     const fmt = (n) => {
         const num = parseInt(n);
         if (isNaN(num)) return n ?? "—";
         if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
-        if (num >= 1_000)     return `${(num / 1_000).toFixed(1)}K`;
+        if (num >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
         return String(num);
     };
 
@@ -46,37 +46,38 @@ const Report = () => {
         return "#e05555";
     };
 
-    // ── PDF ──────────────────────────────────────────────────────────────────
+    // ── PDF — backend generation (WeasyPrint, real PDF) ──────────────────────
     const downloadPDF = async () => {
         setIsDownloading(true);
-        const element = document.getElementById("report-to-pdf");
         try {
-            const clone = element.cloneNode(true);
-            Object.assign(clone.style, {
-                width: "1100px",
-                position: "absolute",
-                top: "-9999px",
-                left: "0",
-                background: "#050505",
-                padding: "40px",
-                color: "white",
+            const response = await fetch(`${BACKEND_URL}/generate-pdf`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    profile_data: profile,
+                    metadata_summary: stats,
+                    analysis_report: report,
+                }),
             });
-            document.body.appendChild(clone);
-            const canvas = await html2canvas(clone, {
-                scale: 1.5,
-                useCORS: true,
-                backgroundColor: "#050505",
-                windowWidth: 1100,
-            });
-            document.body.removeChild(clone);
-            const imgData    = canvas.toDataURL("image/png");
-            const imgWidth   = 210;
-            const pageHeight = (canvas.height * imgWidth) / canvas.width;
-            const pdf        = new jsPDF("p", "mm", [imgWidth, pageHeight]);
-            pdf.addImage(imgData, "PNG", 0, 0, imgWidth, pageHeight);
-            pdf.save(`MarkX_Strategy_${profile.profile}.pdf`);
+
+            if (!response.ok) {
+                const err = await response.json().catch(() => ({}));
+                throw new Error(err.detail || "PDF generation failed");
+            }
+
+            // Stream the binary PDF and trigger browser download
+            const blob = await response.blob();
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `MarkX_Strategy_${profile.profile}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(url);
         } catch (err) {
-            console.error(err);
+            console.error("PDF download failed:", err);
+            alert(`PDF Error: ${err.message}`);
         } finally {
             setIsDownloading(false);
         }
@@ -366,9 +367,9 @@ const AvatarWithFallback = ({ src, name }) => {
 const MixBar = ({ reels = 0, carousel = 0, stat = 0 }) => (
     <div className="mix-bar-wrap">
         <div className="mix-bar">
-            <div className="mix-fill reels"    style={{ width: `${reels}%` }}    title={`Reels ${reels}%`} />
+            <div className="mix-fill reels" style={{ width: `${reels}%` }} title={`Reels ${reels}%`} />
             <div className="mix-fill carousels" style={{ width: `${carousel}%` }} title={`Carousel ${carousel}%`} />
-            <div className="mix-fill static"   style={{ width: `${stat}%` }}     title={`Static ${stat}%`} />
+            <div className="mix-fill static" style={{ width: `${stat}%` }} title={`Static ${stat}%`} />
         </div>
         <div className="mix-legend">
             <span><i className="dot reels" />    Reels {reels}%</span>

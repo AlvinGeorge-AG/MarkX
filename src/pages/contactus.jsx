@@ -39,7 +39,7 @@ const ContactUs = () => {
 
     try {
       // ✅ Replace with your actual Render URL
-      const response = await fetch("https://markxbackendapify-production.up.railway.app/contact", {
+      const response = await fetch("https://markx-backend-apify.onrender.com/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
