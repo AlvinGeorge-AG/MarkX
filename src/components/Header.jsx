@@ -8,45 +8,65 @@ import Logo2 from "../assets/logo2.png";
 import CaseStudies from "../pages/CaseStudies";
 import ContactUs from "../pages/contactus";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
 
 const Header = () => {
   const [expanded, setExpanded] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollTop;
+      const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scroll = `${totalScroll / windowHeight}`;
+      setScrollProgress(scroll * 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <Navbar expand="lg" fixed="top" className="glass-navbar" expanded={expanded} onToggle={setExpanded}>
-      <Container fluid className="px-4 px-lg-5">
+    <>
+      <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
+      <Navbar expand="lg" fixed="top" className={`glass-navbar ${expanded ? "menu-open" : ""}`} expanded={expanded} onToggle={setExpanded}>
+        <Container fluid className="px-4 px-lg-5">
 
-        <Navbar.Brand as={Link} to="/" className="brand" onClick={() => setExpanded(false)}>
-          <img src={Logo2} alt="MarkX Logo" className="brand-logo" />
-          <span className="brand-text">MarkX</span>
-        </Navbar.Brand>
+          <Navbar.Brand as={Link} to="/" className="brand" onClick={() => setExpanded(false)}>
+            <img src={Logo2} alt="MarkX Logo" className="brand-logo" />
+            <span className="brand-text">MarkX</span>
+          </Navbar.Brand>
 
-        <Navbar.Toggle aria-controls="main-navbar" className="custom-toggle" />
+          <div className="custom-toggle" onClick={() => setExpanded(!expanded)}>
+            {expanded ? <X size={32} /> : <Menu size={32} />}
+          </div>
 
-        <Navbar.Collapse id="main-navbar">
-          <Nav className="ms-auto nav-links">
-            <NavLink to="/" end className="nav-item" onClick={() => setExpanded(false)}>
-               Home
-            </NavLink>
-            <NavLink to="/insight" className="nav-item" onClick={() => setExpanded(false)}>
-               Insight
-            </NavLink>
-            <NavLink to="/case-studies" className="nav-item" onClick={() => setExpanded(false)}>
-               Case Studies
-            </NavLink>
-            <NavLink to="/People" className="nav-item" onClick={() => setExpanded(false)}>
-           People
-            </NavLink>
+          <Navbar.Collapse id="main-navbar">
+            <div className="mobile-menu-overlay" onClick={() => setExpanded(false)}></div>
+            <Nav className="ms-auto nav-links">
+              <NavLink to="/" end className="nav-item" style={{ "--i": 1 }} onClick={() => setExpanded(false)}>
+                 Home
+              </NavLink>
+              <NavLink to="/insight" className="nav-item" style={{ "--i": 2 }} onClick={() => setExpanded(false)}>
+                 Insight
+              </NavLink>
+              <NavLink to="/case-studies" className="nav-item" style={{ "--i": 3 }} onClick={() => setExpanded(false)}>
+                 Case Studies
+              </NavLink>
+              <NavLink to="/People" className="nav-item" style={{ "--i": 4 }} onClick={() => setExpanded(false)}>
+              People
+              </NavLink>
 
-            <NavLink to="/contact" className="nav-item" onClick={() => setExpanded(false)}>
-               Contacts
-            </NavLink>
-          </Nav>
-        </Navbar.Collapse>
+              <NavLink to="/contact" className="nav-item nav-cta" style={{ "--i": 5 }} onClick={() => setExpanded(false)}>
+                 Get Started
+              </NavLink>
+            </Nav>
+          </Navbar.Collapse>
 
-      </Container>
-    </Navbar>
+        </Container>
+      </Navbar>
+    </>
   );
 };
 

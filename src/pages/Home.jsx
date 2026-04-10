@@ -3,14 +3,14 @@ import SecondBanner from "../components/SecondBanner";
 import Price from "../components/Price";
 import Footer from "../components/Footer";
 import WhatIsMarkX from "../components/WhatIsMarkX";
-const Home = () => {
+const Home = ({ onAuditClick }) => {
   return (
     <>
-      <BannerSlider />
-      <SecondBanner />
-        <Price />
-        <WhatIsMarkX />
-        <Footer />
+      <BannerSlider onAuditClick={onAuditClick} />
+      <div className="reveal"><SecondBanner /></div>
+      <div className="reveal"><Price /></div>
+      <div className="reveal"><WhatIsMarkX /></div>
+      <Footer />
     </>
   );
 };

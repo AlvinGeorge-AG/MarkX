@@ -3,9 +3,9 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: dark;
+  color: #ffffff;
+  background-color: #05070d;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -65,4 +65,77 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Scroll Animations */
+.reveal {
+  position: relative;
+  opacity: 0;
+  transform: perspective(1000px) translateY(80px) rotateX(10deg);
+  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  visibility: hidden;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: perspective(1000px) translateY(0) rotateX(0);
+  visibility: visible;
+}
+
+/* Staggered reveals for children */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: perspective(1000px) translateY(40px) rotateX(5deg);
+  transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-stagger.active > * {
+  opacity: 1;
+  transform: perspective(1000px) translateY(0) rotateX(0);
+}
+
+.reveal-stagger.active > *:nth-child(1) { transition-delay: 0.1s; }
+.reveal-stagger.active > *:nth-child(2) { transition-delay: 0.2s; }
+.reveal-stagger.active > *:nth-child(3) { transition-delay: 0.3s; }
+.reveal-stagger.active > *:nth-child(4) { transition-delay: 0.4s; }
+.reveal-stagger.active > *:nth-child(5) { transition-delay: 0.5s; }
+
+/* Micro Animations for Icons */
+.icon-pulse {
+  animation: iconPulse 2s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(225, 48, 108, 0)); }
+  50% { transform: scale(1.15); filter: drop-shadow(0 0 10px rgba(225, 48, 108, 0.8)); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(225, 48, 108, 0)); }
+}
+
+.icon-float {
+  animation: iconFloat 4s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+  0% { transform: translateY(0) rotate(0); }
+  33% { transform: translateY(-8px) rotate(5deg); }
+  66% { transform: translateY(4px) rotate(-5deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+
+.icon-rotate {
+  animation: iconRotate 10s linear infinite;
+}
+
+@keyframes iconRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Magnet Effect Utility */
+.magnet-btn {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.magnet-btn:hover {
+  transform: scale(1.05) translateY(-5px);
 }
