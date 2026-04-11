@@ -5,6 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import Header from "./components/Header";
 import SplashScreen from "./components/SplashScreen";
 import Background3D from "./components/Background3D";
+import ScrollToTop from "./components/ScrollToTop";
 
 import Home from "./pages/Home";
 import CaseStudies from "./pages/CaseStudies";
@@ -35,6 +36,7 @@ const App = () => {
 
   return (
     <>
+      <ScrollToTop />
       <Background3D />
       <Header onAuditClick={() => setIsAuditModalOpen(true)} />
       <AnimatePresence mode="wait">
