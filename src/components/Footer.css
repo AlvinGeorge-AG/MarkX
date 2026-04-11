@@ -1,6 +1,6 @@
 :root {
-  --bg-deep: #05070d;
-  --bg-soft: #0a0f1f;
+  --bg-deep: #000000;
+  --bg-soft: #000000;
   --white: #ffffff;
   --muted: #9aa4bf;
   --accent: #2f7cff;
@@ -10,10 +10,12 @@
 
 .footer {
   padding: 55px 6% 30px;
-  background: radial-gradient(circle at top, var(--bg-soft), var(--bg-deep));
+  background: #000000; /* Opaque black for visibility */
   color: var(--white);
   position: relative;
   overflow: hidden;
+  border-top: 1px solid rgba(47, 124, 255, 0.25); /* Blue separation line */
+  z-index: 10;
 }
 
 .footer::before {

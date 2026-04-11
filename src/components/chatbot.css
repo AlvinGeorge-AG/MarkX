@@ -11,6 +11,14 @@
   touch-action: none;
 }
 
+@media (max-width: 768px) {
+  .bot-group {
+    right: 8px;
+    bottom: 8px;
+    transform: scale(0.65); /* Significantly smaller on mobile */
+  }
+}
+
 .bot-float {
   cursor: grab;
 }
@@ -44,6 +52,13 @@
   z-index: 2;
 }
 
+@media (max-width: 768px) {
+  .bot-float img {
+    width: 65px; /* Tiny mascot on mobile */
+  }
+}
+
+
 .bot-pulse-1,
 .bot-pulse-2 {
   position: absolute;
@@ -61,18 +76,9 @@
 }
 
 @keyframes pulseGlow {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.8;
-  }
-  70% {
-    transform: scale(2.5);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(2.8);
-    opacity: 0;
-  }
+  0% { transform: scale(0.8); opacity: 0.8; }
+  70% { transform: scale(2.5); opacity: 0; }
+  100% { transform: scale(2.8); opacity: 0; }
 }
 
 .bot-chat {
@@ -90,15 +96,17 @@
   transform-origin: bottom right;
 }
 
+@media (max-width: 768px) {
+  .bot-chat {
+    width: calc(100% - 32px);
+    right: 16px;
+    bottom: 110px;
+  }
+}
+
 @keyframes chatPopUp {
-  from {
-    opacity: 0;
-    transform: scale(0.5) translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  from { opacity: 0; transform: scale(0.5) translateY(50px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .bot-header {
@@ -136,7 +144,6 @@
 .bot-question:hover {
   background: linear-gradient(135deg, #f58529, #dd2a7b);
 }
-
 
 .bot-answer {
   background: #f0f4f8;
@@ -238,3 +245,4 @@
   75% { transform: translateY(-15px) rotate(-3deg); }
   100% { transform: translateY(0) rotate(0deg); }
 }
+

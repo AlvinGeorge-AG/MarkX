@@ -11,16 +11,25 @@ import ContactUs from "../pages/contactus";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
-const Header = () => {
+const Header = ({ onAuditClick }) => {
   const [expanded, setExpanded] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
+      // For scroll progress bar
       const totalScroll = document.documentElement.scrollTop;
       const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scroll = `${totalScroll / windowHeight}`;
       setScrollProgress(scroll * 100);
+
+      // For navbar shrink/float effect
+      if (window.scrollY > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -30,7 +39,7 @@ const Header = () => {
   return (
     <>
       <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
-      <Navbar expand="lg" fixed="top" className={`glass-navbar ${expanded ? "menu-open" : ""}`} expanded={expanded} onToggle={setExpanded}>
+      <Navbar expand="lg" fixed="top" className={`glass-navbar ${scrolled ? "scrolled" : ""} ${expanded ? "menu-open" : ""}`} expanded={expanded} onToggle={setExpanded}>
         <Container fluid className="px-4 px-lg-5">
 
           <Navbar.Brand as={Link} to="/" className="brand" onClick={() => setExpanded(false)}>
@@ -44,23 +53,34 @@ const Header = () => {
 
           <Navbar.Collapse id="main-navbar">
             <div className="mobile-menu-overlay" onClick={() => setExpanded(false)}></div>
-            <Nav className="ms-auto nav-links">
+            <Nav className="mx-auto nav-links">
               <NavLink to="/" end className="nav-item" style={{ "--i": 1 }} onClick={() => setExpanded(false)}>
-                 Home
+                Home
               </NavLink>
               <NavLink to="/insight" className="nav-item" style={{ "--i": 2 }} onClick={() => setExpanded(false)}>
-                 Insight
+                Insight
               </NavLink>
               <NavLink to="/case-studies" className="nav-item" style={{ "--i": 3 }} onClick={() => setExpanded(false)}>
-                 Case Studies
+                Case Studies
               </NavLink>
               <NavLink to="/People" className="nav-item" style={{ "--i": 4 }} onClick={() => setExpanded(false)}>
-              People
+                People
               </NavLink>
 
-              <NavLink to="/contact" className="nav-item nav-cta" style={{ "--i": 5 }} onClick={() => setExpanded(false)}>
-                 Get Started
+
+              <NavLink to="/contact" className="nav-item" style={{ "--i": 5 }} onClick={() => setExpanded(false)}>
+                Get Started
               </NavLink>
+              <div
+                className="nav-item nav-cta"
+                style={{ "--i": 6, cursor: "pointer" }}
+                onClick={() => {
+                  onAuditClick();
+                  setExpanded(false);
+                }}
+              >
+                Get Audit
+              </div>
             </Nav>
           </Navbar.Collapse>
 

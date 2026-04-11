@@ -1,10 +1,11 @@
 :root {
-  --bg-deep: #05070d;
-  --bg-soft: #0a0f1f;
+  --bg-deep: #000000;
+  --bg-soft: #000000;
   --white: #ffffff;
-  --muted: #c5cbe3;
+  --muted: #cbd5e1; /* Lightened for better contrast */
   --glow: rgba(47, 124, 255, 0.45);
 }
+
 
 /* =================================
    SECTION BASE
@@ -12,7 +13,7 @@
 
 .markx-section {
   padding: 140px 20px;
-  background: radial-gradient(circle at top, var(--bg-soft), var(--bg-deep));
+  background: transparent; /* Changed to transparent for starfield */
   color: var(--white);
   text-align: center;
   position: relative;
@@ -157,8 +158,8 @@
   background: rgba(255,255,255,0.06);
   backdrop-filter: blur(18px);
 
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 0 40px rgba(0,255,255,0.3);
+  border: 1.5px solid rgba(47, 124, 255, 0.4); /* Blue border added */
+  box-shadow: 0 0 30px rgba(0,255,255,0.15);
 
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
@@ -184,94 +185,123 @@
 .stat-card p {
   margin-top: 12px;
   font-size: 1.1rem;
-  color: #ffffff;
+  color: #f8f9fa; /* Bright white for stats */
 }
 
 /* =================================
    DIFFERENCE SECTION (FIXED)
-================================= */
+ ================================= */
 
 .difference {
-  margin-top: 160px;
+  margin-top: 180px;
+  padding: 0 10px;
 }
 
 .difference-grid {
   display: flex;
-  gap: 40px;
+  gap: 60px;
   justify-content: center;
   flex-wrap: wrap;
-  margin-top: 60px;
+  margin-top: 80px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .diff-card {
-  width: 340px;
-  padding: 40px;
-  border-radius: 24px;
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 0 50px rgba(0,255,255,0.3);
-  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  width: 100%;
+  max-width: 400px;
+  min-height: 380px;
+  padding: 45px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(20px);
+  border: 1.5px solid rgba(47, 124, 255, 0.3); /* Blue border added */
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   transform-style: preserve-3d;
+  text-align: left;
 }
 
 .diff-card:hover {
-  transform: translateY(-15px) rotateX(8deg) rotateY(4deg) scale(1.05);
-  box-shadow: 0 0 100px rgba(0,255,255,1);
+  border-color: rgba(0, 255, 255, 0.4);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 255, 255, 0.2);
 }
 
 /* Left Card */
 .diff-left {
-  border-left: 6px solid #ff4d4d;
+  border-top: 8px solid #ff4d4d;
 }
 
 .diff-left h4 {
   color: #ff4d4d;
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  font-weight: 800;
 }
 
 /* Right Card */
 .diff-right {
-  border-left: 6px solid #FFD700;
+  border-top: 8px solid #FFD700;
+  background: rgba(255, 215, 0, 0.03);
 }
 
 .diff-right h4 {
   color: #FFD700;
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  text-shadow: 0 0 15px rgba(255,215,0,0.8);
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  font-weight: 800;
 }
 
 /* List */
 .diff-card ul {
   list-style: none;
   padding: 0;
-  margin-top: 15px;
+  margin: 0;
 }
 
 .diff-card li {
-  margin-bottom: 12px;
-  font-size: 1rem;
-  color: #ffffff;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+}
+
+.diff-left li::before {
+  content: "✕";
+  color: #ff4d4d;
+  margin-right: 12px;
+  font-weight: 900;
+}
+
+.diff-right li::before {
+  content: "✓";
+  color: #FFD700;
+  margin-right: 12px;
+  font-weight: 900;
 }
 
 /* =================================
    RESPONSIVE
-================================= */
+ ================================= */
 
 @media (max-width: 768px) {
-  .origin h3,
-  .difference h2 {
-    font-size: 2rem;
+  .difference-grid {
+    gap: 30px;
+    margin-top: 50px;
+  }
+  
+  .diff-card {
+    padding: 30px;
+    min-height: auto;
   }
 
-  .stat-card,
-  .diff-card {
-    width: 100%;
-    max-width: 340px;
+  .diff-left h4, .diff-right h4 {
+    font-size: 1.5rem;
   }
 }
+
 /* ===============================
    OFFERS GRID
 ================================= */
@@ -294,9 +324,9 @@
   padding: 40px 30px;
   border-radius: 25px;
 
-  background: rgba(255,255,255,0.06);
+  background: rgba(255,255,255,0.04);
   backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(47, 124, 255, 0.4); /* Blue border added */
 
   box-shadow: 0 30px 70px rgba(0,0,0,0.8);
   text-align: center;

@@ -1,7 +1,7 @@
 .insight-page {
   min-height: 100vh;
   padding-top: 140px;
-  background: radial-gradient(circle at top, var(--bg-soft), var(--bg-deep));
+  background: transparent; /* Changed to transparent for starfield */
   color: var(--white);
   font-family: "Times New Roman", Times, serif;
   overflow-x: hidden;
@@ -59,8 +59,8 @@
 
 
 :root {
-  --bg-deep: #05070d;
-  --bg-soft: #0a0f1f;
+  --bg-deep: #000000;
+  --bg-soft: #000000;
   --white: #ffffff;
   --muted: #9aa4bf;
   --accent: #2f7cff;
@@ -73,7 +73,7 @@
   min-height: 100vh;
   padding-top: 140px;
   padding-bottom: 120px;
-  background: radial-gradient(circle at top, var(--bg-soft), var(--bg-deep));
+  background: transparent; /* Changed to transparent for starfield */
   color: var(--white);
   font-family: "Times New Roman", Times, serif;
   overflow-x: hidden;

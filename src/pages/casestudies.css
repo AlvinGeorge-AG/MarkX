@@ -3,7 +3,7 @@
 .case-Studies {
   min-height: 100vh;
   padding: 140px 20px 80px; 
-  background: radial-gradient(circle at top, #0a0f1f, #05070d);
+  background: transparent; /* Changed to transparent for starfield */
   font-family: "Times New Roman", Times, serif;
   color: #ffffff;
   overflow: hidden;
@@ -50,7 +50,7 @@
 .description {
   text-align: center;
   font-size: 1.05rem;
-  color: #9aa4bf;
+  color: #cbd5e1; /* Lightened for contrast against starfield */
   max-width: 700px;
   margin: 10px auto 40px;
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import "./BannerSlider.css";
 
 const slides = [
@@ -33,7 +34,7 @@ const BannerSlider = ({ onAuditClick }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 3500);
+    }, 4500);
 
     return () => clearInterval(interval);
   }, []);
@@ -49,43 +50,71 @@ const BannerSlider = ({ onAuditClick }) => {
   return (
     <>
       <section className="hero">
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className={`slide ${index === current ? "active" : ""}`}
-            style={{
-              opacity: index === current ? 1 : 0,
-              pointerEvents: index === current ? "auto" : "none",
-              visibility: index === current ? "visible" : "hidden"
-            }}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, scale: 1.1, rotateX: 10 }}
+            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+            exit={{ opacity: 0, scale: 0.95, rotateX: -10 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="slide active"
           >
-            <h1>
-              {slide.title}
-              <span>{slide.highlight}</span>
+            <motion.h1
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+            >
+              {slides[current].title}
+              <motion.span
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.6, duration: 0.8 }}
+              >
+                {slides[current].highlight}
+              </motion.span>
               <br />
-              {slide.subtitle}
-            </h1>
+              <motion.span
+                className="subtitle"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+              >
+                {slides[current].subtitle}
+              </motion.span>
+            </motion.h1>
 
-            <button className="slide-btn" onClick={() => handleSlideAction(slide.link)}>
-              {slide.button}
-            </button>
-          </div>
-        ))}
+            <motion.button
+              whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(100, 108, 255, 0.4)" }}
+              whileTap={{ scale: 0.9 }}
+              className="slide-btn"
+              onClick={() => handleSlideAction(slides[current].link)}
+            >
+              {slides[current].button}
+            </motion.button>
+          </motion.div>
+        </AnimatePresence>
       </section>
 
-      {/* Repositioned Get Audit Section - "Under the page" */}
-      <div className="insta-cta-section">
+      <motion.div 
+        className="insta-cta-section"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
         <div className="container text-center">
-            <button
-            className="insta-btn magnet-btn"
-            onClick={onAuditClick}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="insta-btn magnet-btn"
+              onClick={onAuditClick}
             >
             Get Audit Now ⚡
-            </button>
+            </motion.button>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 };
 
 export default BannerSlider;
+

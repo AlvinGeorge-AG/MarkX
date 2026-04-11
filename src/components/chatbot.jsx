@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import "./chatbot.css";
 import bot from "../assets/markx-bot.png";
 
@@ -47,137 +48,129 @@ const faqs = [
 
 const ChatBot = ({ onAuditClick }) => {
   const [open, setOpen] = useState(false);
-  const [menuType, setMenuType] = useState(null); // 'audit' or 'qn'
+  const [menuType, setMenuType] = useState(null);
   const [active, setActive] = useState(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const dragInfo = useRef({ startX: 0, startY: 0, initialX: 0, initialY: 0, isDragging: false });
 
-  const handlePointerDown = (e) => {
-    e.target.setPointerCapture(e.pointerId);
-    dragInfo.current = {
-      startX: e.clientX,
-      startY: e.clientY,
-      initialX: position.x,
-      initialY: position.y,
-      isDragging: false,
-    };
+  // Motion values for tilt
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(mouseY, [-300, 300], [15, -15]));
+  const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-15, 15]));
+
+  const handleMouseMove = (e) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    mouseX.set(clientX - innerWidth / 2);
+    mouseY.set(clientY - innerHeight / 2);
   };
 
-  const handlePointerMove = (e) => {
-    if (!e.target.hasPointerCapture(e.pointerId)) return;
-    
-    const dx = e.clientX - dragInfo.current.startX;
-    const dy = e.clientY - dragInfo.current.startY;
-    
-    if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
-      dragInfo.current.isDragging = true;
-      setIsDragging(true);
-    }
-
-    if (dragInfo.current.isDragging) {
-      setPosition({
-        x: dragInfo.current.initialX + dx,
-        y: dragInfo.current.initialY + dy
-      });
-    }
-  };
-
-  const handlePointerUp = (e, type = "audit") => {
-    e.target.releasePointerCapture(e.pointerId);
-    if (!dragInfo.current.isDragging) {
-      if (open && menuType === type) {
-        setOpen(false);
-      } else {
-        setMenuType(type);
-        setOpen(true);
-      }
-    }
-    setIsDragging(false);
-    dragInfo.current.isDragging = false;
-  };
+  React.useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   return (
     <>
-      <div 
-        className={`bot-group ${isDragging ? "dragging" : ""}`} 
-        style={{ transform: `translate(${position.x}px, ${position.y}px)` }}
+      <motion.div 
+        className="bot-group"
+        drag
+        dragMomentum={false}
+        initial={{ y: 0 }}
+        animate={{ y: [0, -10, 0] }}
+        transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
       >
-        <div 
+        <motion.div 
           className="bot-qn-btn"
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={(e) => handlePointerUp(e, "qn")}
-          onPointerCancel={(e) => handlePointerUp(e, "qn")}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => { setMenuType("qn"); setOpen(true); }}
         >
           Q & N
-        </div>
+        </motion.div>
 
-        <div 
+        <motion.div 
           className="bot-float"
-          onPointerDown={handlePointerDown}
-          onPointerMove={handlePointerMove}
-          onPointerUp={(e) => handlePointerUp(e, "audit")}
-          onPointerCancel={(e) => handlePointerUp(e, "audit")}
+          whileHover={{ scale: 1.1, rotateZ: 5 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={() => { setMenuType("audit"); setOpen(true); }}
         >
           <div className="bot-icon-wrapper" style={{ pointerEvents: "none" }}>
             <div className="bot-pulse-1"></div>
             <div className="bot-pulse-2"></div>
-            <img src={bot} alt="MarkX Bot" />
+            <img src={bot} alt="MarkX Bot" style={{ transform: "translateZ(20px)" }} />
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
+      <AnimatePresence>
+        {open && (
+          <motion.div 
+            className="bot-chat"
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.9 }}
+            transition={{ type: "spring", damping: 20, stiffness: 300 }}
+          >
+            <div className="bot-header">
+              {menuType === "qn" ? "Q & N" : "Free Audit"}
+              <span onClick={() => { setOpen(false); setActive(null); }}>×</span>
+            </div>
 
-      {open && (
-        <div className="bot-chat">
-          <div className="bot-header">
-            {menuType === "qn" ? "Q & N" : "Free Audit"}
-            <span onClick={() => { setOpen(false); setActive(null); }}>×</span>
-          </div>
+            <div className="bot-body">
+              {menuType === "qn" ? (
+                <>
+                  {!active && (
+                    <>
+                      <p className="bot-hint">Frequently Asked Questions 👇</p>
+                      {faqs.map((item, i) => (
+                        <motion.div
+                          key={i}
+                          className="bot-question"
+                          whileHover={{ x: 10, backgroundColor: "rgba(100, 108, 255, 0.1)" }}
+                          onClick={() => setActive(item)}
+                        >
+                          {item.q}
+                        </motion.div>
+                      ))}
+                    </>
+                  )}
 
-          <div className="bot-body">
-            {menuType === "qn" ? (
-              <>
-                {!active && (
-                  <>
-                    <p className="bot-hint">Frequently Asked Questions 👇</p>
-                    {faqs.map((item, i) => (
-                      <div
-                        key={i}
-                        className="bot-question"
-                        onClick={() => setActive(item)}
-                      >
-                        {item.q}
-                      </div>
-                    ))}
-                  </>
-                )}
-
-                {active && (
-                  <>
-                    <div className="bot-answer">{active.a}</div>
-                    <button className="bot-back" onClick={() => setActive(null)}>
-                      ← Back
-                    </button>
-                  </>
-                )}
-              </>
-            ) : (
-              <div className="bot-audit-content">
-                <h3>Get Your Free Content Audit! 🚀</h3>
-                <p>Want to scale your brand? Our experts will analyze your Instagram/Website and provide a personalized strategy.</p>
-                <div className="bot-audit-action magnet-btn" onClick={onAuditClick}>
-                  Get Audit Now ⚡
+                  {active && (
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                    >
+                      <div className="bot-answer">{active.a}</div>
+                      <button className="bot-back" onClick={() => setActive(null)}>
+                        ← Back
+                      </button>
+                    </motion.div>
+                  )}
+                </>
+              ) : (
+                <div className="bot-audit-content">
+                  <h3>Get Your Free Content Audit! 🚀</h3>
+                  <p>Want to scale your brand? Our experts will analyze your Instagram/Website and provide a personalized strategy.</p>
+                  <motion.div 
+                    className="bot-audit-action magnet-btn" 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={onAuditClick}
+                  >
+                    Get Audit Now ⚡
+                  </motion.div>
+                  <p className="bot-hint" style={{ marginTop: '15px' }}>Average response time: 2-4 hours</p>
                 </div>
-                <p className="bot-hint" style={{ marginTop: '15px' }}>Average response time: 2-4 hours</p>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 };
 
 export default ChatBot;
+

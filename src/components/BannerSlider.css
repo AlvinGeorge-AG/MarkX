@@ -1,6 +1,6 @@
 :root {
-  --bg-deep: #05070d;
-  --bg-soft: #0a0f1f;
+  --bg-deep: #000000;
+  --bg-soft: #000000;
   --white: #ffffff;
   --accent: #2f7cff;
   --accent-soft: #6aa6ff;
@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-deep);
+  background: transparent; /* Removed opaque background */
   position: relative;
   overflow: hidden;
   perspective: 1800px;
@@ -85,7 +85,7 @@
 /* --- Repositioned Section --- */
 .insta-cta-section {
   padding: 40px 0;
-  background: var(--bg-deep);
+  background: transparent; /* Removed opaque background */
   display: flex;
   justify-content: center;
   align-items: center;

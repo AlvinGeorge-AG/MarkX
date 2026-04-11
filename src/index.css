@@ -5,12 +5,19 @@
 
   color-scheme: dark;
   color: #ffffff;
-  background-color: #05070d;
+  background-color: transparent; /* Changed to transparent for 3D Background */
 
-  font-synthesis: none;
+  /* Global Clarity & Visibility */
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Ensures text pops against stars */
+  
+  font-synthesis: none;
+}
+
+  /* Global 3D Perspective */
+  perspective: 1500px;
 }
 
 a {
@@ -24,10 +31,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  display: block; /* Changed from flex to block for normal flow */
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -44,7 +51,7 @@ button {
   font-family: inherit;
   background-color: #1a1a1a;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: border-color 0.25s, transform 0.25s;
 }
 button:hover {
   border-color: #646cff;
@@ -67,38 +74,14 @@ button:focus-visible {
   }
 }
 
-/* Scroll Animations */
-.reveal {
-  position: relative;
-  opacity: 0;
-  transform: perspective(1000px) translateY(80px) rotateX(10deg);
-  transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-  visibility: hidden;
+/* 3D Utility Classes */
+.preserve-3d {
+  transform-style: preserve-3d;
 }
 
-.reveal.active {
-  opacity: 1;
-  transform: perspective(1000px) translateY(0) rotateX(0);
-  visibility: visible;
+.backface-hidden {
+  backface-visibility: hidden;
 }
-
-/* Staggered reveals for children */
-.reveal-stagger > * {
-  opacity: 0;
-  transform: perspective(1000px) translateY(40px) rotateX(5deg);
-  transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.reveal-stagger.active > * {
-  opacity: 1;
-  transform: perspective(1000px) translateY(0) rotateX(0);
-}
-
-.reveal-stagger.active > *:nth-child(1) { transition-delay: 0.1s; }
-.reveal-stagger.active > *:nth-child(2) { transition-delay: 0.2s; }
-.reveal-stagger.active > *:nth-child(3) { transition-delay: 0.3s; }
-.reveal-stagger.active > *:nth-child(4) { transition-delay: 0.4s; }
-.reveal-stagger.active > *:nth-child(5) { transition-delay: 0.5s; }
 
 /* Micro Animations for Icons */
 .icon-pulse {
@@ -138,4 +121,19 @@ button:focus-visible {
 
 .magnet-btn:hover {
   transform: scale(1.05) translateY(-5px);
+}
+
+/* Global Visibility Booster */
+* {
+  text-shadow: inherit; /* Propagate shadow to all elements for starfield contrast */
+}
+
+p, span, li, a {
+  letter-spacing: 0.015em;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.01em;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
 }

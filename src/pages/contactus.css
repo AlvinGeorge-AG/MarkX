@@ -1,7 +1,6 @@
-
 :root {
-  --bg-deep: #05070d;
-  --bg-soft: #0a0f1f;
+  --bg-deep: #000000;
+  --bg-soft: #000000;
   --white: #ffffff;
   --muted: #9aa4bf;
   --accent: #2f7cff;
@@ -13,7 +12,7 @@
 .contact-page {
   min-height: 100vh;
   padding: 140px 20px 80px;
-  background: radial-gradient(circle at top, var(--bg-soft), var(--bg-deep));
+  background: transparent; /* Changed to transparent for starfield */
   font-family: "Times New Roman", Times, serif;
   color: var(--white);
   overflow-x: hidden;
